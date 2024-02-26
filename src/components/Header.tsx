@@ -17,7 +17,7 @@ function Header() {
         <div className="container mx-auto flex justify-between items-center text-white">
           <div >
             <Link href="/">
-              <Image loading="lazy" src={logo} alt="" />
+              <Image loading="lazy" src={logo} alt="home" />
             </Link>
           </div>
           <div className="xl:flex hidden items-center gap-5 text-lg ">
