@@ -1,11 +1,13 @@
 import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Herosection from "@/components/Home/Herosection";
-import ArticlesCategories from "@/components/Home/ArticlesCategories";
-import RecentArticles from "@/components/Home/RecentArticles";
-import NewPosts from "@/components/Home/NewPosts";
-import LatestVideos from "@/components/Home/LatestVideos";
+import dynamic from "next/dynamic";
+
+const Herosection = dynamic(() => import("@/components/Home/Herosection"));
+const ArticlesCategories = dynamic(() => import("@/components/Home/ArticlesCategories"));
+const RecentArticles = dynamic(() => import("@/components/Home/RecentArticles"));
+const NewPosts = dynamic(() => import("@/components/Home/NewPosts"));
+const LatestVideos = dynamic(() => import("@/components/Home/LatestVideos"));
 
 const page = () => {
   return (

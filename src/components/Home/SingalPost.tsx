@@ -13,6 +13,7 @@ const SingalPost = ({ image }: singalPostsProps) => {
         alt=""
         width={300}
         height={100}
+        loading="lazy"
         className="xl:min-w-[50%] xl:h-full h-40 w-full object-cover rounded-lg "
       ></Image>
 
