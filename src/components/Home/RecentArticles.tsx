@@ -2,7 +2,7 @@
 import React, { useRef } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import category1 from "../../../public/static/images/Image.png";
-import articlePoster from "../../../public/static/images/autop-prepartion-artibat-BANNIERE-H 1.png";
+import articlePoster from "../../../public/static/images/recentarticlesimage.png";
 import Image from "next/image";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Navigation } from "swiper/modules";
