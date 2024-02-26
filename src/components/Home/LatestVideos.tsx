@@ -29,7 +29,7 @@ const LatestVideos = () => {
       {/* videos */}
       <div className="w-full flex xl:flex-row flex-col items-start gap-5">
         <div className="xl:w-2/3 w-full relative">
-          <Image src={latestVideo} alt="" className="w-full h-full" />
+          <Image src={latestVideo} alt="" className="w-full 2xl:h-full xl:h-[62vh] h-full" />
           <div className="absolute w-[95%] bottom-2 left-1/2 -translate-x-1/2 bg-white rounded-lg text-blackText font-semibold text-left space-y-2 md:p-3 p-1">
             <p className="font-semibold lg:text-xl line-clamp-1 md:line-clamp-none">
               How Music Affects Your Brain (Plus 11 Artists To Listen To At
