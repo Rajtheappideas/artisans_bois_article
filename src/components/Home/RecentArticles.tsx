@@ -23,10 +23,10 @@ const RecentArticles = () => {
         </p>
         {/* arrows */}
         <div className="flex items-center gap-1">
-          <button ref={prevRef} name="previous" className="h-7 w-7">
+          <button ref={prevRef} name="recent_article_previous" className="h-7 w-7">
             <AiOutlineLeft className="bg-gray-200 hover:bg-gray-300 rounded-lg text-black p-2 h-7 w-7" />
           </button>
-          <button ref={nextRef} name="next" className="h-7 w-7">
+          <button ref={nextRef} name="recent_article_next" className="h-7 w-7">
             <AiOutlineRight className="bg-gray-200 hover:bg-gray-300 rounded-lg text-black p-2 h-7 w-7" />
           </button>
         </div>
@@ -58,15 +58,15 @@ const RecentArticles = () => {
             swiper.navigation.update();
           });
         }}
+        className="2xl:h-[40vh] lg:h-[70vh] h-[50vh]"
       >
-        <SwiperSlide className="w-full group overflow-hidden">
-          <div className="w-full space-y-3 relative rounded-lg">
+        <SwiperSlide className="w-full  h-full group overflow-hidden">
+          <div className="w-full space-y-3 h-full relative rounded-lg overflow-hidden">
             <Image
               src={category1}
               alt=""
-              height={500}
-              width={500}
-              className="w-full transition-all group-hover:scale-110 duration-300 ease-in-out object-cover lg:h-[60vh] h-[40vh]"
+              className="w-full transition-all group-hover:scale-110 duration-300 ease-in-out object-cover"
+              fill
             />
             <div className="w-full z-10 absolute bottom-3  text-white md:left-4 left-2 capitalize">
               <p className="font-semibold mb-2 lg:text-4xl md:text-2xl text-lg">
@@ -74,29 +74,47 @@ const RecentArticles = () => {
               </p>
               <p className="font-light text-sm">CARPENTRY | OCTOBER 16, 2023</p>
             </div>
-            <p className="bg-black/20 w-full bottom-0 transition-all duration-300 ease-in-out lg:group-hover:h-1/4 group-hover:h-1/3 h-0 left-0 z-0 absolute"></p>
+            <p className="bg-black/20 w-full bottom-0 transition-all duration-300 ease-in-out 2xl:group-hover:h-1/4 group-hover:h-1/3 h-0 left-0 z-0 absolute"></p>
           </div>
         </SwiperSlide>
-        <SwiperSlide className="w-full">
-          <div className="w-full space-y-3 relative rounded-lg">
+        <SwiperSlide className="w-full  h-full group overflow-hidden">
+          <div className="w-full space-y-3 h-full relative rounded-lg overflow-hidden">
             <Image
               src={category1}
               alt=""
-              height={500}
-              width={500}
-              className="w-full object-cover lg:h-[60vh] h-[40vh]"
+              className="w-full transition-all group-hover:scale-110 duration-300 ease-in-out object-cover"
+              fill
             />
-            <div className="w-full absolute bottom-3  text-white md:left-4 left-2 capitalize">
+            <div className="w-full z-10 absolute bottom-3  text-white md:left-4 left-2 capitalize">
               <p className="font-semibold mb-2 lg:text-4xl md:text-2xl text-lg">
                 Bathroom floor coverings from MEISTER
               </p>
               <p className="font-light text-sm">CARPENTRY | OCTOBER 16, 2023</p>
             </div>
+            <p className="bg-black/20 w-full bottom-0 transition-all duration-300 ease-in-out 2xl:group-hover:h-1/4 group-hover:h-1/3 h-0 left-0 z-0 absolute"></p>
           </div>
         </SwiperSlide>
+        <SwiperSlide className="w-full  h-full group overflow-hidden">
+          <div className="w-full space-y-3 h-full relative rounded-lg overflow-hidden">
+            <Image
+              src={category1}
+              alt=""
+              className="w-full transition-all group-hover:scale-110 duration-300 ease-in-out object-cover"
+              fill
+            />
+            <div className="w-full z-10 absolute bottom-3  text-white md:left-4 left-2 capitalize">
+              <p className="font-semibold mb-2 lg:text-4xl md:text-2xl text-lg">
+                Bathroom floor coverings from MEISTER
+              </p>
+              <p className="font-light text-sm">CARPENTRY | OCTOBER 16, 2023</p>
+            </div>
+            <p className="bg-black/20 w-full bottom-0 transition-all duration-300 ease-in-out 2xl:group-hover:h-1/4 group-hover:h-1/3 h-0 left-0 z-0 absolute"></p>
+          </div>
+        </SwiperSlide>
+       
       </Swiper>
       {/* other articles */}
-      <div className="w-full grid xl:grid-cols-3 md:grid-cols-2 place-items-start items-start md:gap-5 gap-3">
+      <div className="w-full grid xl:grid-cols-3 md:grid-cols-2 place-items-start items-start md:gap-x-10 md:gap-y-5 gap-3">
         <div className="w-full flex items-start gap-2">
           <Image
             src={category1}
@@ -106,7 +124,7 @@ const RecentArticles = () => {
             className="xl:w-[8vw] md:w-[15vw] w-[25vw] h-fit object-cover object-center"
           />
           <div className="space-y-2">
-            <p className="font-semibold xl:text-lg text-blackText">
+            <p className="font-semibold text-blackText">
               Amanda Seyfried became ‘really obsessed’ with ghost stories
             </p>
             <p className="text-blackText font-medium">
@@ -126,7 +144,7 @@ const RecentArticles = () => {
             className="xl:w-[8vw] md:w-[15vw] w-[25vw] h-fit object-cover object-center"
           />
           <div className="space-y-2">
-            <p className="font-semibold xl:text-lg text-blackText">
+            <p className="font-semibold text-blackText">
               Amanda Seyfried became ‘really obsessed’ with ghost stories
             </p>
             <p className="text-blackText font-medium">
@@ -146,7 +164,7 @@ const RecentArticles = () => {
             className="xl:w-[8vw] md:w-[15vw] w-[25vw] h-fit object-cover object-center"
           />
           <div className="space-y-2">
-            <p className="font-semibold xl:text-lg text-blackText">
+            <p className="font-semibold text-blackText">
               Amanda Seyfried became ‘really obsessed’ with ghost stories
             </p>
             <p className="text-blackText font-medium">
@@ -166,7 +184,7 @@ const RecentArticles = () => {
             className="xl:w-[8vw] md:w-[15vw] w-[25vw] h-fit object-cover object-center"
           />
           <div className="space-y-2">
-            <p className="font-semibold xl:text-lg text-blackText">
+            <p className="font-semibold text-blackText">
               Amanda Seyfried became ‘really obsessed’ with ghost stories
             </p>
             <p className="text-blackText font-medium">
@@ -186,7 +204,7 @@ const RecentArticles = () => {
             className="xl:w-[8vw] md:w-[15vw] w-[25vw] h-fit object-cover object-center"
           />
           <div className="space-y-2">
-            <p className="font-semibold xl:text-lg text-blackText">
+            <p className="font-semibold text-blackText">
               Amanda Seyfried became ‘really obsessed’ with ghost stories
             </p>
             <p className="text-blackText font-medium">
@@ -206,7 +224,7 @@ const RecentArticles = () => {
             className="xl:w-[8vw] md:w-[15vw] w-[25vw] h-fit object-cover object-center"
           />
           <div className="space-y-2">
-            <p className="font-semibold xl:text-lg text-blackText">
+            <p className="font-semibold text-blackText">
               Amanda Seyfried became ‘really obsessed’ with ghost stories
             </p>
             <p className="text-blackText font-medium">
@@ -217,6 +235,7 @@ const RecentArticles = () => {
             </p>
           </div>
         </div>
+        
       </div>
       {/* image */}
       <Image

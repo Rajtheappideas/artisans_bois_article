@@ -27,9 +27,15 @@ const LatestVideos = () => {
         </div> */}
       </div>
       {/* videos */}
-      <div className="w-full flex xl:flex-row flex-col items-start gap-5">
+      <div className="w-full flex xl:flex-row flex-col items-start md:gap-5 gap-3">
         <div className="xl:w-2/3 w-full relative">
-          <Image src={latestVideo} alt="" className="w-full 2xl:h-full xl:h-[62vh] h-full" />
+          <div className="relative 2xl:h-[40vh] lg:h-[65vh] md:h-[50vh] h-[35vh]">
+            <Image
+              src={latestVideo}
+              alt=""
+              className="w-full object-cover h-full rounded-lg"
+            />
+          </div>
           <div className="absolute w-[95%] bottom-2 left-1/2 -translate-x-1/2 bg-white rounded-lg text-blackText font-semibold text-left space-y-2 md:p-3 p-1">
             <p className="font-semibold lg:text-xl line-clamp-1 md:line-clamp-none">
               How Music Affects Your Brain (Plus 11 Artists To Listen To At
@@ -50,7 +56,7 @@ const LatestVideos = () => {
               className="w-24 h-24 rounded-lg object-cover object-center"
             />
             <div className="space-y-1">
-              <p className="font-semibold text-lg line-clamp-1 w-10/12">
+              <p className="font-semibold text-lg line-clamp-1 md:w-10/12 w-11/12">
                 5 reasons why you should wrap your hands when boxing
               </p>
               <p className="font-light text-opacity-50 w-full text-sm line-clamp-2">
@@ -70,7 +76,7 @@ const LatestVideos = () => {
               className="w-24 h-24 rounded-lg object-cover object-center"
             />
             <div className="space-y-1">
-              <p className="font-semibold text-lg line-clamp-1 w-10/12">
+              <p className="font-semibold text-lg line-clamp-1 md:w-10/12 w-11/12">
                 5 reasons why you should wrap your hands when boxing
               </p>
               <p className="font-light text-opacity-50 w-full text-sm line-clamp-2">
@@ -90,7 +96,7 @@ const LatestVideos = () => {
               className="w-24 h-24 rounded-lg object-cover object-center"
             />
             <div className="space-y-1">
-              <p className="font-semibold text-lg line-clamp-1 w-10/12">
+              <p className="font-semibold text-lg line-clamp-1 md:w-10/12 w-11/12">
                 5 reasons why you should wrap your hands when boxing
               </p>
               <p className="font-light text-opacity-50 w-full text-sm line-clamp-2">
@@ -103,7 +109,7 @@ const LatestVideos = () => {
               </p>
             </div>
           </div>
-        
+         
         </div>
       </div>
     </div>

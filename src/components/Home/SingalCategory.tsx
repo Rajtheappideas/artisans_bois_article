@@ -8,15 +8,16 @@ interface SingalCategoryProps {
 
 const SingalCategory = ({ image, name }: SingalCategoryProps) => {
   return (
-    <div className="w-full overflow-hidden space-y-3 rounded-lg shadow-lg p-3">
-      <Image
-        src={image}
-        alt=""
-        height={500}
-        width={500}
-        className="w-full transition-all overflow-hidden duration-300 ease-in-out hover:scale-105 object-cover rounded-lg h-fit"
-        loading="lazy"
-      />
+    <div className="w-full overflow-hidden h-auto space-y-3 rounded-lg shadow-lg p-3">
+      <div className=" relative 2xl:h-[20vh] md:h-[40vh] h-[30vh] w-full">
+        <Image
+          src={image}
+          alt=""
+          fill
+          className="w-full transition-all overflow-hidden duration-300 ease-in-out hover:scale-105 object-cover rounded-lg h-full"
+          loading="lazy"
+        />
+      </div>
       <p className="font-semibold text-lg text-left">{name}</p>
     </div>
   );

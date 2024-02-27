@@ -8,38 +8,66 @@ import image4 from "../../../public/static/images/Image3.png";
 const Herosection = () => {
   return (
     <div className="w-full grid lg:grid-cols-2 place-items-start items-start md:gap-3 gap-1">
-      <div className="relative w-full h-full overflow-hidden">
-        <Image src={image1} alt="" className="transition-all duration-300 ease-in-out hover:scale-110 w-full md:h-full h-[40vh] object-cover" />
+      <div className="relative w-full 2xl:h-[60vh] lg:h-[85vh] md:h-[60vh] h-[40vh] overflow-hidden">
+        <div className="w-full relative h-full">
+          <Image
+            src={image1}
+            alt=""
+            fill
+            className="transition-all duration-300 ease-in-out hover:scale-110 w-full h-full object-cover"
+          />
+        </div>
+        {/* bottom text */}
         <div className="w-full absolute bottom-3  text-white md:left-4 left-2 capitalize">
-          <p className="font-semibold mb-2 lg:text-4xl md:text-2xl text-lg line-clamp-2">
+          <p className="font-semibold mb-2 xl:text-4xl md:text-2xl text-lg line-clamp-2 w-11/12">
             Bathroom floor coverings from MEISTER
           </p>
           <p className="font-light text-sm">CARPENTRY | OCTOBER 16, 2023</p>
         </div>
       </div>
-      <div className="w-full h-full grid md:grid-cols-2 place-items-start items-start md:gap-3 gap-1">
-        <div className="relative w-full md:h-full h-[40vh] overflow-hidden">
-          <Image src={image2} alt="" className="w-full transition-all duration-300 ease-in-out hover:scale-110 max-h-full object-cover" />
-          <div className="w-full absolute bottom-3 text-wrap text-white lg:left-4 left-2 capitalize">
-            <p className="font-semibold mb-2 text-lg w-11/12 line-clamp-2">
+      <div className="w-full 2xl:h-[60vh] md:h-[85vh] h-screen grid md:grid-cols-2 place-items-start items-start md:gap-3 gap-1">
+        <div className="relative w-full h-full overflow-hidden">
+          <Image
+            src={image2}
+            alt=""
+            fill
+            loading="lazy"
+            className="w-full transition-all duration-300 ease-in-out hover:scale-110 h-full object-cover"
+          />
+          <div className="w-full absolute bottom-3 text-wrap text-white lg:left-3 left-2 capitalize">
+            <p className="font-semibold mb-2 md:text-lg w-11/12 line-clamp-2">
               They’re back! Kennedy Darling named to return to
             </p>
-            <p className="font-light lg:text-sm text-xs text-wrap">CARPENTRY | OCTOBER 16, 2023</p>
+            <p className="font-light lg:text-sm text-xs text-wrap">
+              CARPENTRY | OCTOBER 16, 2023
+            </p>
           </div>
         </div>
-        <div className="relative w-full md:h-full h-[40vh] overflow-hidden">
-          <Image src={image3} alt="" className="w-full max-h-full object-cover transition-all duration-300 ease-in-out hover:scale-110" />
-          <div className="w-full absolute bottom-3  text-white lg:left-4 left-2 capitalize">
-          <p className="font-semibold mb-2 text-lg w-11/12 line-clamp-2">
+        <div className="relative w-full h-full overflow-hidden">
+          <Image
+            src={image3}
+            alt=""
+            loading="lazy"
+            fill
+            className="w-full h-full object-cover transition-all duration-300 ease-in-out hover:scale-110"
+          />
+          <div className="w-full absolute bottom-3   text-white lg:left-3 left-2 capitalize">
+            <p className="font-semibold mb-2 md:text-lg w-11/12 line-clamp-2">
               They’re back! Kennedy Darling named to return to
             </p>
             <p className="font-light text-sm">CARPENTRY | OCTOBER 16, 2023</p>
           </div>
         </div>
-        <div className="relative w-full md:h-full max-h-[40vh] col-span-full overflow-hidden">
-        <Image src={image4} alt="" className=" w-full max-h-full object-cover transition-all duration-300 ease-in-out hover:scale-110" />
+        <div className="relative w-full h-full col-span-full overflow-hidden">
+          <Image
+            src={image4}
+            alt=""
+            loading="lazy"
+            fill
+            className=" w-full h-full object-cover transition-all duration-300 ease-in-out hover:scale-110"
+          />
           <div className="w-full absolute bottom-3  text-white lg:left-4 left-2 capitalize">
-            <p className="font-semibold mb-2 md:text-2xl text-lg line-clamp-2 w-11/12">
+            <p className="font-semibold mb-2 lg:text-2xl md:text-lg line-clamp-2 w-11/12">
               They’re back! Kennedy Darling named to return to
             </p>
             <p className="font-light text-sm">CARPENTRY | OCTOBER 16, 2023</p>

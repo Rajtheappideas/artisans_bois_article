@@ -20,6 +20,8 @@ const NewPosts = () => {
         <SingalPost image={category1} />
         <SingalPost image={category1} />
         <SingalPost image={category1} />
+        <SingalPost image={category1} />
+        <SingalPost image={category1} />
       </div>
       {/* image */}
       <Image src={postImage} alt="" loading="lazy" className="w-full h-fit" />
