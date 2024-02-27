@@ -74,7 +74,7 @@ const RecentArticles = () => {
               </p>
               <p className="font-light text-sm">CARPENTRY | OCTOBER 16, 2023</p>
             </div>
-            <p className="bg-black/20 w-full bottom-0 transition-all duration-300 ease-in-out 2xl:group-hover:h-1/4 group-hover:h-1/3 h-0 left-0 z-0 absolute"></p>
+            <p className="bg-black/20 w-full bottom-0 transition-all duration-300 ease-in-out 2xl:group-hover:h-1/4 xl:group-hover:h-1/4 group-hover:h-1/3 h-0 left-0 z-0 absolute"></p>
           </div>
         </SwiperSlide>
         <SwiperSlide className="w-full  h-full group overflow-hidden">

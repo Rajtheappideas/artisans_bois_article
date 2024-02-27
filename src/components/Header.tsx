@@ -101,7 +101,7 @@ function Header() {
         </ul>
         <div
           onClick={() => setShowSidebar(false)}
-          className="fixed w-screen h-screen bg-black/20 inset-0 backdrop-blur-md z-20"
+          className={`fixed w-screen h-screen bg-black/20 inset-0 backdrop-blur-md z-20 -translate-x-10 `}
         ></div>
       </div>
     </>
