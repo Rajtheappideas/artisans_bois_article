@@ -136,7 +136,7 @@ const ResetPasswordModal = () => {
             )}
           </button>
         </div>
-        <span className="error">{errors?.password?.message}</span>
+        {/* <span className="error">{errors?.password?.message}</span> */}
         <div>
           <label htmlFor="confirmPassword" className="Label">
             {t("Confirm Password")}
@@ -147,7 +147,7 @@ const ResetPasswordModal = () => {
             placeholder="********"
             {...register("confirmPassword")}
           />
-          <span className="error">{errors?.confirmPassword?.message}</span>
+          {/* <span className="error">{errors?.confirmPassword?.message}</span> */}
         </div>
         <button  type="submit" className="blue_button w-full">
           {/* {loading ? t("Submitting").concat("...") : t("Submit")} */}
