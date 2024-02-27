@@ -75,19 +75,19 @@ const ArticlesCategories = () => {
         }}
       >
         <SwiperSlide className="w-full py-2 pl-2 overflow-hidden">
-          <SingalCategory image={category1} name="Outdoor Facilities" />
+          <SingalCategory title="Outdoor Facilities" image={category1} />
         </SwiperSlide>
-        <SwiperSlide className="w-full py-2 pl-2">
-          <SingalCategory image={category2} name="Outdoor Facilities" />
+        <SwiperSlide className="w-full py-2 pl-2 overflow-hidden">
+          <SingalCategory title="Equipmenty" image={category2} />
         </SwiperSlide>
-        <SwiperSlide className="w-full py-2 pl-2">
-          <SingalCategory image={category3} name="Outdoor Facilities" />
+        <SwiperSlide className="w-full py-2 pl-2 overflow-hidden">
+          <SingalCategory title="Cunstruction" image={category3} />
         </SwiperSlide>
-        <SwiperSlide className="w-full py-2 pl-2">
-          <SingalCategory image={category1} name="Outdoor Facilities" />
+        <SwiperSlide className="w-full py-2 pl-2 overflow-hidden">
+          <SingalCategory title="Carpentry" image={category1} />
         </SwiperSlide>
-        <SwiperSlide className="w-full py-2 pl-2">
-          <SingalCategory image={category2} name="Outdoor Facilities" />
+        <SwiperSlide className="w-full py-2 pl-2 overflow-hidden">
+          <SingalCategory title="Outdoor Facilities" image={category2} />
         </SwiperSlide>
       </Swiper>
     </div>

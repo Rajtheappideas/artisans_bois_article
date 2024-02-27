@@ -18,6 +18,8 @@ const config: Config = {
         darkBlue: "#005294",
         blackText: "#1D1B23",
         grayText: "#6D6D6D",
+        lightGray: "#fafafa",
+        midGray: "#F5F5F5",
       },
       fontFamily: {
         roboto: ["Roboto", "sans-serif"],

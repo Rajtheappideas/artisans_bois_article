@@ -29,7 +29,7 @@ const LatestVideos = () => {
       {/* videos */}
       <div className="w-full flex xl:flex-row flex-col items-start md:gap-5 gap-3">
         <div className="xl:w-2/3 w-full relative">
-          <div className="relative 2xl:h-[40vh] lg:h-[65vh] md:h-[50vh] h-[35vh]">
+          <div className="relative 2xl:h-[40vh] md:h-[50vh] h-[35vh]">
             <Image
               src={latestVideo}
               alt=""

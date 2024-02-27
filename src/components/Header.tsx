@@ -30,25 +30,25 @@ function Header() {
   }, []);
 
   const links = [
-    { name: "Outdoor Facilities", link: "/" },
-    { name: "Equipmenty", link: "/" },
-    { name: "Cunstruction", link: "/" },
-    { name: "Carpentry", link: "/" },
-    { name: "Occupation", link: "/" },
-    { name: "Distribution", link: "/" },
-    { name: "Finishes", link: "/" },
+    { name: "Outdoor Facilities", link: "/category/outdoor-facilities" },
+    { name: "Equipmenty", link: "/category/Equipmenty" },
+    { name: "Cunstruction", link: "/category/Cunstruction" },
+    { name: "Carpentry", link: "/category/Carpentry" },
+    { name: "Occupation", link: "/category/Occupation" },
+    { name: "Distribution", link: "/category/Distribution" },
+    { name: "Finishes", link: "/category/Finishes" },
   ];
 
   return (
     <>
-      <div className="w-full  bg-darkBlue">
+      <div className="w-full  bg-darkBlue sticky top-0 z-20 transition-all duration-300 ease-in-out">
         <div className="container mx-auto flex items-center gap-x-3 p-3 justify-end text-white">
           <button>Register</button> | <button>Login</button>
         </div>
       </div>
       {/* desktop menu */}
-      <div className="w-full bg-blue p-5">
-        <div className="container mx-auto flex justify-between items-center text-white">
+      <div className="w-full  bg-blue md:p-5 p-3 sticky z-20 top-12 transition-all duration-300 ease-in-out">
+        <div className="container mx-auto flex md:gap-4 gap-2 justify-between items-center text-white">
           {/* home link */}
           <div>
             <Link href="/">
@@ -56,23 +56,28 @@ function Header() {
             </Link>
           </div>
           {/* other links */}
-          <div className="xl:flex hidden items-center gap-5 text-lg ">
+          <div className="xl:flex hidden items-center gap-5 text-lg ml-auto ">
             {links.map(({ link, name }, i) => (
               <Link key={i} href={link}>
                 {name}
               </Link>
             ))}
-            <button className="uppercase p-3 border rounded-lg">
+          </div>
+          <div className="flex items-center md:gap-3 gap-2">
+            <button className="uppercase md:p-3 p-1 border rounded-lg">
               subscribe
             </button>
-            <AiOutlineSearch role="button" className="h-10 w-10 text-white" />
+            <AiOutlineSearch
+              role="button"
+              className="md:h-10 h-5 md:w-10 w-5 text-white"
+            />
+            {/* sidebar button */}
+            <RiMenu3Line
+              onClick={() => setShowSidebar(true)}
+              role="button"
+              className="h-6 w-6 xl:hidden block"
+            />
           </div>
-          {/* sidebar button */}
-          <RiMenu3Line
-            onClick={() => setShowSidebar(true)}
-            role="button"
-            className="h-6 w-6 xl:hidden block"
-          />
         </div>
       </div>
       {/* mobile sidebar */}
@@ -101,7 +106,9 @@ function Header() {
         </ul>
         <div
           onClick={() => setShowSidebar(false)}
-          className={`fixed w-screen h-screen bg-black/20 inset-0 backdrop-blur-md z-20 -translate-x-10 `}
+          className={`fixed w-screen h-screen bg-black/20 inset-0 backdrop-blur-md z-20 ${
+            showSidebar ? "translate-x-0" : "-translate-x-10"
+          } `}
         ></div>
       </div>
     </>

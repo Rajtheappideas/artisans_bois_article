@@ -58,7 +58,7 @@ const RecentArticles = () => {
             swiper.navigation.update();
           });
         }}
-        className="2xl:h-[40vh] lg:h-[70vh] h-[50vh]"
+        className="2xl:h-[40vh] h-[50vh]"
       >
         <SwiperSlide className="w-full  h-full group overflow-hidden">
           <div className="w-full space-y-3 h-full relative rounded-lg overflow-hidden">
@@ -68,24 +68,7 @@ const RecentArticles = () => {
               className="w-full transition-all group-hover:scale-110 duration-300 ease-in-out object-cover"
               fill
             />
-            <div className="w-full z-10 absolute bottom-3  text-white md:left-4 left-2 capitalize">
-              <p className="font-semibold mb-2 lg:text-4xl md:text-2xl text-lg">
-                Bathroom floor coverings from MEISTER
-              </p>
-              <p className="font-light text-sm">CARPENTRY | OCTOBER 16, 2023</p>
-            </div>
-            <p className="bg-black/20 w-full bottom-0 transition-all duration-300 ease-in-out 2xl:group-hover:h-1/4 xl:group-hover:h-1/4 group-hover:h-1/3 h-0 left-0 z-0 absolute"></p>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide className="w-full  h-full group overflow-hidden">
-          <div className="w-full space-y-3 h-full relative rounded-lg overflow-hidden">
-            <Image
-              src={category1}
-              alt=""
-              className="w-full transition-all group-hover:scale-110 duration-300 ease-in-out object-cover"
-              fill
-            />
-            <div className="w-full z-10 absolute bottom-3  text-white md:left-4 left-2 capitalize">
+            <div className="w-full z-10 absolute bottom-6 text-white md:left-4 left-2 capitalize">
               <p className="font-semibold mb-2 lg:text-4xl md:text-2xl text-lg">
                 Bathroom floor coverings from MEISTER
               </p>
@@ -102,7 +85,24 @@ const RecentArticles = () => {
               className="w-full transition-all group-hover:scale-110 duration-300 ease-in-out object-cover"
               fill
             />
-            <div className="w-full z-10 absolute bottom-3  text-white md:left-4 left-2 capitalize">
+            <div className="w-full z-10 absolute bottom-6 text-white md:left-4 left-2 capitalize">
+              <p className="font-semibold mb-2 lg:text-4xl md:text-2xl text-lg">
+                Bathroom floor coverings from MEISTER
+              </p>
+              <p className="font-light text-sm">CARPENTRY | OCTOBER 16, 2023</p>
+            </div>
+            <p className="bg-black/20 w-full bottom-0 transition-all duration-300 ease-in-out 2xl:group-hover:h-1/4 group-hover:h-1/3 h-0 left-0 z-0 absolute"></p>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide className="w-full  h-full group overflow-hidden">
+          <div className="w-full space-y-3 h-full relative rounded-lg overflow-hidden">
+            <Image
+              src={category1}
+              alt=""
+              className="w-full transition-all group-hover:scale-110 duration-300 ease-in-out object-cover"
+              fill
+            />
+            <div className="w-full z-10 absolute bottom-6 text-white md:left-4 left-2 capitalize">
               <p className="font-semibold mb-2 lg:text-4xl md:text-2xl text-lg">
                 Bathroom floor coverings from MEISTER
               </p>

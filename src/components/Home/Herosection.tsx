@@ -7,8 +7,8 @@ import image4 from "../../../public/static/images/Image3.png";
 
 const Herosection = () => {
   return (
-    <div className="w-full grid lg:grid-cols-2 place-items-start items-start md:gap-3 gap-1">
-      <div className="relative w-full 3xl:h-[50vh] 2xl:h-[40vh] lg:h-[85vh] md:h-[60vh] h-[40vh] overflow-hidden">
+    <div className="w-full grid xl:grid-cols-2 place-items-start items-start md:gap-3 gap-1">
+      <div className="relative w-full 3xl:h-[50vh] 2xl:h-[40vh] xl:h-[80vh] md:h-[50vh] h-[40vh] overflow-hidden">
         <div className="w-full relative h-full">
           <Image
             src={image1}
@@ -25,7 +25,7 @@ const Herosection = () => {
           <p className="font-light text-sm">CARPENTRY | OCTOBER 16, 2023</p>
         </div>
       </div>
-      <div className="w-full 3xl:h-[50vh] 2xl:h-[40vh] md:h-[85vh] h-screen grid md:grid-cols-2 place-items-start items-start md:gap-3 gap-1">
+      <div className="w-full 3xl:h-[50vh] 2xl:h-[40vh] md:h-[80vh] h-screen grid md:grid-cols-2 place-items-start items-start md:gap-3 gap-1">
         <div className="relative w-full h-full overflow-hidden">
           <Image
             src={image2}
