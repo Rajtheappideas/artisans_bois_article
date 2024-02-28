@@ -88,7 +88,7 @@ const ChangePassword = () => {
           )}
         </button>
         <span role="alert" className="error">
-          {errors?.oldPassword?.message}
+          {/* {errors?.oldPassword?.message} */}
         </span>
       </div>
       {/* new password */}
@@ -114,7 +114,7 @@ const ChangePassword = () => {
           )}
         </button>
         <span role="alert" className="error">
-          {errors?.newPassword?.message}
+          {/* {errors?.newPassword?.message} */}
         </span>
       </div>
       {/* confirm password */}
@@ -129,7 +129,7 @@ const ChangePassword = () => {
           {...register("confirmPassword")}
         />
         <span role="alert" className="error">
-          {errors?.confirmPassword?.message}
+          {/* {errors?.confirmPassword?.message} */}
         </span>
       </div>
       {/* btn */}
