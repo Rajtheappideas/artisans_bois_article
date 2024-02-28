@@ -8,6 +8,7 @@ import { SwiperSlide, Swiper } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import Link from "next/link";
 
 const RecentArticles = () => {
   const prevRef = useRef(null);
@@ -23,7 +24,11 @@ const RecentArticles = () => {
         </p>
         {/* arrows */}
         <div className="flex items-center gap-1">
-          <button ref={prevRef} name="recent_article_previous" className="h-7 w-7">
+          <button
+            ref={prevRef}
+            name="recent_article_previous"
+            className="h-7 w-7"
+          >
             <AiOutlineLeft className="bg-gray-200 hover:bg-gray-300 rounded-lg text-black p-2 h-7 w-7" />
           </button>
           <button ref={nextRef} name="recent_article_next" className="h-7 w-7">
@@ -61,57 +66,77 @@ const RecentArticles = () => {
         className="2xl:h-[40vh] h-[50vh]"
       >
         <SwiperSlide className="w-full  h-full group overflow-hidden">
-          <div className="w-full space-y-3 h-full relative rounded-lg overflow-hidden">
-            <Image
-              src={category1}
-              alt=""
-              className="w-full transition-all group-hover:scale-110 duration-300 ease-in-out object-cover"
-              fill
-            />
-            <div className="w-full z-10 absolute bottom-6 text-white md:left-4 left-2 capitalize">
-              <p className="font-semibold mb-2 lg:text-4xl md:text-2xl text-lg">
-                Bathroom floor coverings from MEISTER
-              </p>
-              <p className="font-light text-sm">CARPENTRY | OCTOBER 16, 2023</p>
+          <Link
+            href="/articles/Bathroom floor coverings from MEISTER"
+            className="w-full h-full"
+          >
+            <div className="w-full space-y-3 h-full relative rounded-lg overflow-hidden">
+              <Image
+                src={category1}
+                alt=""
+                className="w-full transition-all group-hover:scale-110 duration-300 ease-in-out object-cover"
+                fill
+              />
+              <div className="w-full z-10 absolute bottom-6 text-white md:left-4 left-2 capitalize">
+                <p className="font-semibold mb-2 lg:text-4xl md:text-2xl text-lg">
+                  Bathroom floor coverings from MEISTER
+                </p>
+                <p className="font-light text-sm">
+                  CARPENTRY | OCTOBER 16, 2023
+                </p>
+              </div>
+              <p className="bg-black/20 w-full bottom-0 transition-all duration-300 ease-in-out 2xl:group-hover:h-1/4 group-hover:h-1/3 h-0 left-0 z-0 absolute"></p>
             </div>
-            <p className="bg-black/20 w-full bottom-0 transition-all duration-300 ease-in-out 2xl:group-hover:h-1/4 group-hover:h-1/3 h-0 left-0 z-0 absolute"></p>
-          </div>
+          </Link>
         </SwiperSlide>
         <SwiperSlide className="w-full  h-full group overflow-hidden">
-          <div className="w-full space-y-3 h-full relative rounded-lg overflow-hidden">
-            <Image
-              src={category1}
-              alt=""
-              className="w-full transition-all group-hover:scale-110 duration-300 ease-in-out object-cover"
-              fill
-            />
-            <div className="w-full z-10 absolute bottom-6 text-white md:left-4 left-2 capitalize">
-              <p className="font-semibold mb-2 lg:text-4xl md:text-2xl text-lg">
-                Bathroom floor coverings from MEISTER
-              </p>
-              <p className="font-light text-sm">CARPENTRY | OCTOBER 16, 2023</p>
+          <Link
+            href="/articles/Bathroom floor coverings from MEISTER"
+            className="w-full h-full"
+          >
+            <div className="w-full space-y-3 h-full relative rounded-lg overflow-hidden">
+              <Image
+                src={category1}
+                alt=""
+                className="w-full transition-all group-hover:scale-110 duration-300 ease-in-out object-cover"
+                fill
+              />
+              <div className="w-full z-10 absolute bottom-6 text-white md:left-4 left-2 capitalize">
+                <p className="font-semibold mb-2 lg:text-4xl md:text-2xl text-lg">
+                  Bathroom floor coverings from MEISTER
+                </p>
+                <p className="font-light text-sm">
+                  CARPENTRY | OCTOBER 16, 2023
+                </p>
+              </div>
+              <p className="bg-black/20 w-full bottom-0 transition-all duration-300 ease-in-out 2xl:group-hover:h-1/4 group-hover:h-1/3 h-0 left-0 z-0 absolute"></p>
             </div>
-            <p className="bg-black/20 w-full bottom-0 transition-all duration-300 ease-in-out 2xl:group-hover:h-1/4 group-hover:h-1/3 h-0 left-0 z-0 absolute"></p>
-          </div>
+          </Link>
         </SwiperSlide>
         <SwiperSlide className="w-full  h-full group overflow-hidden">
-          <div className="w-full space-y-3 h-full relative rounded-lg overflow-hidden">
-            <Image
-              src={category1}
-              alt=""
-              className="w-full transition-all group-hover:scale-110 duration-300 ease-in-out object-cover"
-              fill
-            />
-            <div className="w-full z-10 absolute bottom-6 text-white md:left-4 left-2 capitalize">
-              <p className="font-semibold mb-2 lg:text-4xl md:text-2xl text-lg">
-                Bathroom floor coverings from MEISTER
-              </p>
-              <p className="font-light text-sm">CARPENTRY | OCTOBER 16, 2023</p>
+          <Link
+            href="/articles/Bathroom floor coverings from MEISTER"
+            className="w-full h-full"
+          >
+            <div className="w-full space-y-3 h-full relative rounded-lg overflow-hidden">
+              <Image
+                src={category1}
+                alt=""
+                className="w-full transition-all group-hover:scale-110 duration-300 ease-in-out object-cover"
+                fill
+              />
+              <div className="w-full z-10 absolute bottom-6 text-white md:left-4 left-2 capitalize">
+                <p className="font-semibold mb-2 lg:text-4xl md:text-2xl text-lg">
+                  Bathroom floor coverings from MEISTER
+                </p>
+                <p className="font-light text-sm">
+                  CARPENTRY | OCTOBER 16, 2023
+                </p>
+              </div>
+              <p className="bg-black/20 w-full bottom-0 transition-all duration-300 ease-in-out 2xl:group-hover:h-1/4 group-hover:h-1/3 h-0 left-0 z-0 absolute"></p>
             </div>
-            <p className="bg-black/20 w-full bottom-0 transition-all duration-300 ease-in-out 2xl:group-hover:h-1/4 group-hover:h-1/3 h-0 left-0 z-0 absolute"></p>
-          </div>
+          </Link>
         </SwiperSlide>
-       
       </Swiper>
       {/* other articles */}
       <div className="w-full grid xl:grid-cols-3 md:grid-cols-2 place-items-start items-start md:gap-x-10 md:gap-y-5 gap-3">
@@ -235,7 +260,6 @@ const RecentArticles = () => {
             </p>
           </div>
         </div>
-        
       </div>
       {/* image */}
       <Image

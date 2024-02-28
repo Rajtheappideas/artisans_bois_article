@@ -20,7 +20,7 @@ const SingalCategory = ({
   return (
     <div className="w-full bg-white cursor-pointer overflow-hidden h-full rounded-lg shadow-lg p-3">
       <Link
-        href={`/articles/${title.split(/[\s,]+/).join("-")}`}
+        href={`/category/${title.split(/[\s,]+/).join("-")}`}
         className="w-full h-full  space-y-3"
       >
         <div className=" relative 2xl:h-80 md:h-60 h-40 w-full">

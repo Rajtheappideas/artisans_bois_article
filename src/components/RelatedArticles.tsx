@@ -6,6 +6,7 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import SingalPost from "./Home/SingalPost";
+import Link from "next/link";
 
 const RelatedArticles = () => {
   const prevRef = useRef(null);
@@ -71,19 +72,76 @@ const RelatedArticles = () => {
         }}
       >
         <SwiperSlide className="w-full py-2 pl-2 overflow-hidden">
-          <SingalPost from="articles" image={category1} />
+          <SingalPost
+            from="articles"
+            description="Things move quickly in the mobile app universe. To succeed in the
+              field of mobile UX design, designers must have the foresight and
+              prepare for new challenges around the corner"
+            title="12 Mobile UX Design Trends For 2018"
+            category="carpentry"
+            date="july 14 ,2014"
+            image={category1}
+          />
         </SwiperSlide>
         <SwiperSlide className="w-full py-2 pl-2 overflow-hidden">
-          <SingalPost from="articles" image={category1} />
+          <SingalPost
+            from="articles"
+            description="Things move quickly in the mobile app universe. To succeed in the
+              field of mobile UX design, designers must have the foresight and
+              prepare for new challenges around the corner"
+            title="12 Mobile UX Design Trends For 2018"
+            category="carpentry"
+            date="july 14 ,2014"
+            image={category1}
+          />
         </SwiperSlide>
         <SwiperSlide className="w-full py-2 pl-2 overflow-hidden">
-          <SingalPost from="articles" image={category1} />
+          <SingalPost
+            from="articles"
+            description="Things move quickly in the mobile app universe. To succeed in the
+              field of mobile UX design, designers must have the foresight and
+              prepare for new challenges around the corner"
+            title="12 Mobile UX Design Trends For 2018"
+            category="carpentry"
+            date="july 14 ,2014"
+            image={category1}
+          />
         </SwiperSlide>
         <SwiperSlide className="w-full py-2 pl-2 overflow-hidden">
-          <SingalPost from="articles" image={category1} />
+          <SingalPost
+            from="articles"
+            description="Things move quickly in the mobile app universe. To succeed in the
+              field of mobile UX design, designers must have the foresight and
+              prepare for new challenges around the corner"
+            title="12 Mobile UX Design Trends For 2018"
+            category="carpentry"
+            date="july 14 ,2014"
+            image={category1}
+          />
         </SwiperSlide>
         <SwiperSlide className="w-full py-2 pl-2 overflow-hidden">
-          <SingalPost from="articles" image={category1} />
+          <SingalPost
+            from="articles"
+            description="Things move quickly in the mobile app universe. To succeed in the
+              field of mobile UX design, designers must have the foresight and
+              prepare for new challenges around the corner"
+            title="12 Mobile UX Design Trends For 2018"
+            category="carpentry"
+            date="july 14 ,2014"
+            image={category1}
+          />
+        </SwiperSlide>
+        <SwiperSlide className="w-full py-2 pl-2 overflow-hidden">
+          <SingalPost
+            from="articles"
+            description="Things move quickly in the mobile app universe. To succeed in the
+              field of mobile UX design, designers must have the foresight and
+              prepare for new challenges around the corner"
+            title="12 Mobile UX Design Trends For 2018"
+            category="carpentry"
+            date="july 14 ,2014"
+            image={category1}
+          />
         </SwiperSlide>
       </Swiper>
     </div>
