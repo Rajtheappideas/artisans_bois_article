@@ -5,9 +5,13 @@ import { RiMenu3Line } from "react-icons/ri";
 import logo from "../../public/static/images/Logo.png";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { handleGetCategories } from "@/redux/GetContentSlice";
+import { usePathname } from "next/navigation";
 
 function Header() {
   const [showSidebar, setShowSidebar] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("test123");
   const [windowSizes, setWindowSizes] = useState(() => {
     if (typeof window === "undefined") {
       return { width: 0, height: 0 };
@@ -18,7 +22,17 @@ function Header() {
     };
   });
 
+  const { categoryLoading, categories } = useAppSelector(
+    (state) => state.root.getcontent
+  );
+
+  const dispatch = useAppDispatch();
+
+  const pathname = usePathname();
+
   useEffect(() => {
+    dispatch(handleGetCategories());
+
     const handleResize = () => {
       if (window.innerWidth >= 1280) {
         setShowSidebar(false);
@@ -26,7 +40,9 @@ function Header() {
       setWindowSizes({ width: window.innerWidth, height: window.innerHeight });
     };
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const links = [
@@ -57,11 +73,26 @@ function Header() {
           </div>
           {/* other links */}
           <div className="xl:flex hidden items-center gap-5 text-lg ml-auto ">
-            {links.map(({ link, name }, i) => (
-              <Link key={i} href={link}>
-                {name}
-              </Link>
-            ))}
+            {categoryLoading ? (
+              <div className="">Loading...</div>
+            ) : (
+              categories.map(({ name, _id, showOnNavbar }) => (
+                <Link
+                  onClick={() => setActiveCategory(name)}
+                  key={_id}
+                  href={`/category/${name}`}
+                  className={` ${
+                    activeCategory === name &&
+                    pathname.includes(activeCategory) &&
+                    pathname.includes("category")
+                      ? "bg-white text-blackText p-1 rounded-lg"
+                      : ""
+                  } capitalize transition-all duration-300 ease-in-out`}
+                >
+                  {name}
+                </Link>
+              ))
+            )}
           </div>
           <div className="flex items-center md:gap-3 gap-2">
             <button className="uppercase md:p-3 p-1 border rounded-lg">

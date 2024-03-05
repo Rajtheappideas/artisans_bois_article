@@ -1,16 +1,18 @@
 "use client";
 import React, { useRef } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import category1 from "../../../public/static/images/unsplash_-js8KGQLfhw.jpg";
-import category2 from "../../../public/static/images/unsplash_DGHy9KgdTj0.png";
-import category3 from "../../../public/static/images/unsplash_mP7aPSUm7aE.png";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import SingalCategory from "./SingalCategory";
+import { useAppSelector } from "@/redux/hooks";
 
 const ArticlesCategories = () => {
+  const { categoryLoading, categories } = useAppSelector(
+    (state) => state.root.getcontent
+  );
+
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
@@ -32,64 +34,58 @@ const ArticlesCategories = () => {
           </button>
         </div>
       </div>
-      <Swiper
-        modules={[Navigation]}
-        spaceBetween={10}
-        slidesPerView={4}
-        direction={"horizontal"}
-        navigation={{
-          prevEl: prevRef.current,
-          nextEl: nextRef.current,
-          enabled: true,
-        }}
-        loop={true}
-        observer={true}
-        parallax={true}
-        observeParents={true}
-        onSwiper={(swiper: any) => {
-          // Delay execution for the refs to be defined
-          setTimeout(() => {
-            // Override prevEl & nextEl now that refs are defined
-            swiper.params.navigation.prevEl = prevRef.current;
-            swiper.params.navigation.nextEl = nextRef.current;
+      {categoryLoading ? (
+        <div className="loading">Loading...</div>
+      ) : (
+        <Swiper
+          modules={[Navigation]}
+          spaceBetween={10}
+          slidesPerView={4}
+          direction={"horizontal"}
+          navigation={{
+            prevEl: prevRef.current,
+            nextEl: nextRef.current,
+            enabled: true,
+          }}
+          loop={true}
+          observer={true}
+          parallax={true}
+          observeParents={true}
+          onSwiper={(swiper: any) => {
+            // Delay execution for the refs to be defined
+            setTimeout(() => {
+              // Override prevEl & nextEl now that refs are defined
+              swiper.params.navigation.prevEl = prevRef.current;
+              swiper.params.navigation.nextEl = nextRef.current;
 
-            // Re-init navigation
-            swiper.navigation.destroy();
-            swiper.navigation.init();
-            swiper.navigation.update();
-          });
-        }}
-        breakpoints={{
-          1280: {
-            slidesPerView: 4,
-          },
-          1024: {
-            slidesPerView: 3,
-          },
-          640: {
-            slidesPerView: 2,
-          },
-          240: {
-            slidesPerView: 1,
-          },
-        }}
-      >
-        <SwiperSlide className="w-full py-2 pl-2 overflow-hidden">
-          <SingalCategory title="Outdoor Facilities" image={category1} />
-        </SwiperSlide>
-        <SwiperSlide className="w-full py-2 pl-2 overflow-hidden">
-          <SingalCategory title="Equipmenty" image={category2} />
-        </SwiperSlide>
-        <SwiperSlide className="w-full py-2 pl-2 overflow-hidden">
-          <SingalCategory title="Cunstruction" image={category3} />
-        </SwiperSlide>
-        <SwiperSlide className="w-full py-2 pl-2 overflow-hidden">
-          <SingalCategory title="Carpentry" image={category1} />
-        </SwiperSlide>
-        <SwiperSlide className="w-full py-2 pl-2 overflow-hidden">
-          <SingalCategory title="Outdoor Facilities" image={category2} />
-        </SwiperSlide>
-      </Swiper>
+              // Re-init navigation
+              swiper.navigation.destroy();
+              swiper.navigation.init();
+              swiper.navigation.update();
+            });
+          }}
+          breakpoints={{
+            1280: {
+              slidesPerView: 4,
+            },
+            1024: {
+              slidesPerView: 3,
+            },
+            640: {
+              slidesPerView: 2,
+            },
+            240: {
+              slidesPerView: 1,
+            },
+          }}
+        >
+          {categories.map(({ _id, image, name, showOnNavbar }) => (
+            <SwiperSlide key={_id} className="w-full py-2 pl-2 overflow-hidden">
+              <SingalCategory name={name} image={image} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
     </div>
   );
 };

@@ -1,18 +1,19 @@
-import Image, { StaticImageData } from "next/image";
+import BaseUrl from "@/BaseUrl";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 interface SingalCategoryProps {
-  image: StaticImageData;
-  title: String;
-  description?: String;
-  creator?: String;
-  date?: String;
+  image: string;
+  name: string;
+  description?: string;
+  creator?: string;
+  date?: string;
 }
 
 const SingalCategory = ({
   image,
-  title,
+  name,
   creator,
   date,
   description,
@@ -20,19 +21,20 @@ const SingalCategory = ({
   return (
     <div className="w-full bg-white cursor-pointer overflow-hidden h-full rounded-lg shadow-lg p-3">
       <Link
-        href={`/category/${title.split(/[\s,]+/).join("-")}`}
+        href={`/category/${name?.split(/[\s,]+/).join("-")}`}
         className="w-full h-full  space-y-3"
+        title={name}
       >
         <div className=" relative 2xl:h-80 md:h-60 h-40 w-full">
           <Image
-            src={image}
+            src={BaseUrl.concat(image)}
             alt=""
             fill
             className="w-full transition-all overflow-hidden duration-300 ease-in-out hover:scale-105 object-cover rounded-lg h-full"
             loading="lazy"
           />
         </div>
-        <p className="lg:text-lg font-semibold w-full">{title}</p>
+        <p className="lg:text-lg font-semibold w-full truncate">{name}</p>
         <p className="line-clamp-2 w-full text-blackText">{description}</p>
         {creator && (
           <p className="text-blackText text-sm">
