@@ -19,12 +19,20 @@ const CategoryByTitle = ({
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(handleGetArticles());
-    const filteredArticles = articles.filter(
+  function handleFilterArticles(): void {
+    if (articles.length === 0 || articleLoading) return;
+    const filteredArticles: SingleArticle[] = articles.filter(
       (article) => article.category == categoryTitle
     );
     setCategoriesParams(filteredArticles);
+  }
+
+  useEffect(() => {
+    handleFilterArticles();
+  }, [articleLoading, articles]);
+
+  useEffect(() => {
+    dispatch(handleGetArticles());
   }, []);
 
   return (
