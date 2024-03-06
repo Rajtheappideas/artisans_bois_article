@@ -3,8 +3,12 @@ import category1 from "../../../public/static/images/Image.png";
 import postImage from "../../../public/static/images/newpost.png";
 import SingalPost from "./SingalPost";
 import Image from "next/image";
+import { useAppSelector } from "@/redux/hooks";
 
 const NewPosts = () => {
+  const { articleLoading, articles } = useAppSelector(
+    (state) => state.root.getcontent
+  );
   return (
     <div className="w-full md:space-y-7 space-y-3">
       {/* title */}
@@ -16,66 +20,36 @@ const NewPosts = () => {
       </div>
       {/* posts */}
       <div className="w-full h-full grid lg:grid-cols-2 gap-5 place-items-start items-start">
-        <SingalPost
-          image={category1}
-          title="12 Mobile UX Design Trends For 2018"
-          category="carpentry"
-          date="july 14 ,2014"
-          from="home"
-          description="   Things move quickly in the mobile app universe. To succeed in the
-            field of mobile UX design, designers must have the foresight and
-            prepare for new challenges around the corner"
-        />
-        <SingalPost
-          image={category1}
-          title="12 Mobile UX Design Trends For 2018"
-          category="carpentry"
-          date="july 14 ,2014"
-          from="home"
-          description="   Things move quickly in the mobile app universe. To succeed in the
-            field of mobile UX design, designers must have the foresight and
-            prepare for new challenges around the corner"
-        />
-        <SingalPost
-          image={category1}
-          title="12 Mobile UX Design Trends For 2018"
-          category="carpentry"
-          date="july 14 ,2014"
-          from="home"
-          description="   Things move quickly in the mobile app universe. To succeed in the
-            field of mobile UX design, designers must have the foresight and
-            prepare for new challenges around the corner"
-        />
-        <SingalPost
-          image={category1}
-          title="12 Mobile UX Design Trends For 2018"
-          category="carpentry"
-          date="july 14 ,2014"
-          from="home"
-          description="   Things move quickly in the mobile app universe. To succeed in the
-            field of mobile UX design, designers must have the foresight and
-            prepare for new challenges around the corner"
-        />
-        <SingalPost
-          image={category1}
-          title="12 Mobile UX Design Trends For 2018"
-          category="carpentry"
-          date="july 14 ,2014"
-          from="home"
-          description="   Things move quickly in the mobile app universe. To succeed in the
-            field of mobile UX design, designers must have the foresight and
-            prepare for new challenges around the corner"
-        />
-        <SingalPost
-          image={category1}
-          title="12 Mobile UX Design Trends For 2018"
-          category="carpentry"
-          date="july 14 ,2014"
-          from="home"
-          description="   Things move quickly in the mobile app universe. To succeed in the
-            field of mobile UX design, designers must have the foresight and
-            prepare for new challenges around the corner"
-        />
+        {articleLoading ? (
+          <div className="loading col-span-full">Loading...</div>
+        ) : articles.length > 0 ? (
+          articles.map(
+            ({
+              _id,
+              image,
+              title,
+              content,
+              createdAt,
+              author,
+              category,
+              slug,
+            }) => (
+              <SingalPost
+                from="home"
+                description={content}
+                title={title}
+                author={author?.name}
+                category={category}
+                date={new Date(createdAt)}
+                image={image}
+                slug={slug}
+                key={_id}
+              />
+            )
+          )
+        ) : (
+          <div className="loading col-span-full">No articles found here.</div>
+        )}
       </div>
       {/* image */}
       <Image src={postImage} alt="" loading="lazy" className="w-full h-fit" />
