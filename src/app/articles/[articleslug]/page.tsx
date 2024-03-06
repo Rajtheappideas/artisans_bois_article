@@ -1,8 +1,6 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import image1 from "../../../../public/static/images/unsplash_DGHy9KgdTj0.png";
-import articleImage1 from "../../../../public/static/images/Image1.png";
 import {
   AiOutlineCalendar,
   AiOutlineFolder,
@@ -71,7 +69,7 @@ const ArticleBySlug = ({
   }, [articleLoading]);
 
   useEffect(() => {
-    checkAuth();
+    //     checkAuth();
     dispatch(handleGetArticleBySlug({ slug: articleslug })).catch((err) => {
       console.log(err);
     });
