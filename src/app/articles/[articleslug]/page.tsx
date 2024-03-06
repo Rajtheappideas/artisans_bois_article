@@ -19,7 +19,7 @@ import moment from "moment";
 import { Articles, SingleArticle } from "@/types";
 import useAuthCheck from "@/hooks/useAuthCheck";
 
-const ArticleBySlug = ({
+const ArticleSlug = ({
   params: { articleslug },
 }: {
   params: { articleslug: string };
@@ -66,7 +66,7 @@ const ArticleBySlug = ({
 
   useEffect(() => {
     handleFilterArticles();
-  }, [articleLoading]);
+  }, [articleLoading, articles]);
 
   useEffect(() => {
     //     checkAuth();
@@ -242,4 +242,4 @@ const ArticleBySlug = ({
   );
 };
 
-export default ArticleBySlug;
+export default ArticleSlug;
