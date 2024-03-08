@@ -18,12 +18,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { AppDispatch } from "@/redux/store";
 import toast from "react-hot-toast";
 import { handleRegisterUser } from "@/redux/AuthSlice";
-import { CountryType, UserType } from "@/types";
+import { CountryType, StateType, UserType } from "@/types";
 import { Country, State } from "country-state-city";
 
 const SignupModal = () => {
   const [countries, setCountries] = useState<CountryType[]>([]);
-  const [states, setStates] = useState<[]>([]);
+  const [states, setStates] = useState<StateType[]>([]);
   const [showStateField, setShowStateField] = useState<boolean>(true);
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -157,7 +157,8 @@ const SignupModal = () => {
   }, []);
 
   useEffect(() => {
-    let findCountry: CountryType = Country.getAllCountries().find(
+    let findCountry: CountryType | undefined;
+    findCountry = Country.getAllCountries().find(
       (c) => c.name === getValues("country")
     );
     if (getValues("country") === "") setShowStateField(true);
@@ -165,7 +166,12 @@ const SignupModal = () => {
       State.getStatesOfCountry(findCountry?.isoCode).length > 0 &&
       getValues("country") !== ""
     ) {
-      resetField("province", "");
+      resetField("province", {
+        keepDirty: false,
+        keepError: false,
+        defaultValue: "",
+        keepTouched: false,
+      });
       setStates(State.getStatesOfCountry(findCountry?.isoCode));
       !showStateField && setShowStateField(true);
     } else {
