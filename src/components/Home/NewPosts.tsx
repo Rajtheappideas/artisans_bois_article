@@ -1,5 +1,4 @@
 import React from "react";
-import category1 from "../../../public/static/images/Image.png";
 import postImage from "../../../public/static/images/newpost.png";
 import SingalPost from "./SingalPost";
 import Image from "next/image";
@@ -9,6 +8,8 @@ const NewPosts = () => {
   const { articleLoading, articles } = useAppSelector(
     (state) => state.root.getcontent
   );
+  // console.log(articleLoading);
+  
   return (
     <div className="w-full md:space-y-7 space-y-3">
       {/* title */}

@@ -1,24 +1,20 @@
 "use client";
 import React, { useState } from "react";
-// import BillingAddress from "./BillingAddress";
-// import ShippingAddress from "./ShippingAddress";
-import { useSelector } from "react-redux";
-// import EditShippingAddress from "./EditShippingAddress";
-// import EditBillingAddress from "./EditBillingAddress";
 import { useTranslation } from "react-i18next";
 import BillingAddress from "./BillingAddress";
 import EditBillingAddress from "./EditBillingAddress";
 import DeliveryAddress from "./DeliveryAddress";
 import EditDeliveryAddress from "./EditDeliveryAddress";
+import { useAppSelector } from "@/redux/hooks";
+import { Address } from "@/types";
 
 const Address = () => {
-  const [activeAddress, setActiveAddress] = useState<String>("");
-  const [activeEditAddress, setActiveEditAddress] = useState<String>("billing");
+  const [activeAddress, setActiveAddress] = useState<string>("");
+  const [activeEditAddress, setActiveEditAddress] = useState<string>("");
 
   const { t } = useTranslation();
 
-  //   const { addresses, loading } = useSelector((s) => s.root.auth);
-  let loading = false;
+  const { addresses, addressLoading ,loading} = useAppSelector((s) => s.root.auth);
 
   return (
     <>
@@ -41,8 +37,9 @@ const Address = () => {
 
           {activeAddress === "" && activeEditAddress === "" && (
             <div className="w-full grid md:grid-cols-2 place-items-start items-start gap-4">
-              {/* {addresses !== null &&
-              Object.values(addresses?.billingAddress).length > 0 ? (
+              {/* billing address */}
+              {addresses !== null &&
+              Object.values(addresses?.billingAddress as Address).length > 0 ? (
                 <div className="space-y-2 w-full">
                   <p className="heading">{t("Billing address")}</p>
                   <div className="w-full md:p-4 p-2  border border-gray-300 space-y-2">
@@ -69,7 +66,7 @@ const Address = () => {
                     </p>
                     <button
                       onClick={() => setActiveEditAddress("billing")}
-                      className="capitalize gray_button md:w-48 w-full"
+                      className="capitalize blue_button md:w-48 w-full"
                     >
                       {t("modify")}
                     </button>
@@ -78,35 +75,25 @@ const Address = () => {
               ) : (
                 <div className="w-full space-y-3">
                   <p className="heading">{t("Billing address")}</p>
-                  <div className="flex gap-3 md:h-60 h-40 w-full items-center justify-center flex-col border border-gray-300">
+                  <div className="flex gap-3 bg-white md:h-60 h-40 w-full items-center justify-center flex-col border border-gray-300">
                     <button
-                      className="w-1/2 uppercase gray_button"
+                      className="w-1/2 uppercase blue_button"
                       onClick={() => setActiveAddress("billing")}
                     >
                       {t("add")}
                     </button>
 
-                    <p>{t("You have not yet defined this type of address")}.</p>
+                    <p className="text-center">
+                      {t("You have not yet defined this type of address")}.
+                    </p>
                   </div>
                 </div>
-              )} */}
-              <div className="w-full space-y-3 ">
-                <p className="heading">{t("Billing address")}</p>
-                <div className="flex gap-3 bg-white md:h-60 h-40 w-full items-center justify-center flex-col border border-gray-300">
-                  <button
-                    className="w-1/2 uppercase blue_button"
-                    onClick={() => setActiveAddress("billing")}
-                  >
-                    {t("add")}
-                  </button>
+              )}
 
-                  <p className="text-center">
-                    {t("You have not yet defined this type of address")}.
-                  </p>
-                </div>
-              </div>
-              {/* {addresses !== null &&
-              Object.values(addresses?.shippingAddress).length > 0 ? (
+              {/* delivery address */}
+              {addresses !== null &&
+              Object.values(addresses?.shippingAddress as Address).length >
+                0 ? (
                 <div className="space-y-2 w-full">
                   <p className="heading">{t("Shipping address")}</p>
                   <div className="w-full md:p-4 p-2  border border-gray-300 space-y-2">
@@ -132,43 +119,30 @@ const Address = () => {
                       {addresses?.shippingAddress?.country}, <br />
                     </p>
                     <button
-                      onClick={() => setActiveEditAddress("shipping")}
-                      className="capitalize gray_button md:w-48 w-full"
+                      onClick={() => setActiveEditAddress("delivery")}
+                      className="capitalize blue_button md:w-48 w-full"
                     >
                       {t("modify")}
                     </button>
                   </div>
                 </div>
               ) : (
-                <div className="w-full space-y-3">
-                  <p className="heading">{t("Shipping address")}</p>
-                  <div className="flex gap-3 w-full md:h-60 h-40 items-center justify-center flex-col border border-gray-300">
+                <div className="w-full space-y-3 ">
+                  <p className="heading">{t("Delivery address")}</p>
+                  <div className="flex gap-3 bg-white w-full md:h-60 h-40 items-center justify-center flex-col border border-gray-300">
                     <button
-                      className="w-1/2 uppercase gray_button"
-                      onClick={() => setActiveAddress("shipping")}
+                      className="w-1/2 uppercase blue_button"
+                      onClick={() => setActiveAddress("delivery")}
                     >
                       {t("add")}
                     </button>
 
-                    <p>{t("You have not yet defined this type of address")}.</p>
+                    <p className="text-center">
+                      {t("You have not yet defined this type of address")}.
+                    </p>
                   </div>
                 </div>
-              )} */}
-              <div className="w-full space-y-3 ">
-                <p className="heading">{t("Delivery address")}</p>
-                <div className="flex gap-3 bg-white w-full md:h-60 h-40 items-center justify-center flex-col border border-gray-300">
-                  <button
-                    className="w-1/2 uppercase blue_button"
-                    onClick={() => setActiveAddress("delivery")}
-                  >
-                    {t("add")}
-                  </button>
-
-                  <p className="text-center">
-                    {t("You have not yet defined this type of address")}.
-                  </p>
-                </div>
-              </div>
+              )}
             </div>
           )}
         </>

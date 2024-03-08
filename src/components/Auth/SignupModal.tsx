@@ -1,182 +1,182 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-// import { useDispatch, useSelector } from "react-redux";
-// import {
-//   handleChangeShowSignin,
-//   handleChangeShowSignup,
-//   handleSuccess,
-// } from "../../redux/globalStates";
-// import {
-//   handleGetUserAddress,
-//   handleRegisterUser,
-// } from "../../redux/AuthSlice";
-// import toast from "react-hot-toast";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import {
   isPossiblePhoneNumber,
   isValidPhoneNumber,
 } from "react-phone-number-input";
-// import { yupResolver } from "@hookform/resolvers/yup";
 import { useTranslation } from "react-i18next";
 import { Controller, useForm } from "react-hook-form";
-// import useAbortApiCall from "../../hooks/useAbortApiCall";
-// import ValidationSchema from "../../validations/ValidationSchema";
-// import { Country, State } from "country-state-city";
 import { useState } from "react";
+import { useGlobalContext } from "@/context/globalContext";
+import useAbortApiCall from "@/hooks/useAbortApiCall";
+import ValidationSchema from "@/validations/ValidationSchema";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { AppDispatch } from "@/redux/store";
+import toast from "react-hot-toast";
+import { handleRegisterUser } from "@/redux/AuthSlice";
+import { CountryType, UserType } from "@/types";
+import { Country, State } from "country-state-city";
 
 const SignupModal = () => {
-  const [countries, setCountries] = useState([]);
-  const [states, setStates] = useState([]);
-  const [showStateField, setShowStateField] = useState(true);
+  const [countries, setCountries] = useState<CountryType[]>([]);
+  const [states, setStates] = useState<[]>([]);
+  const [showStateField, setShowStateField] = useState<boolean>(true);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  //   const dispatch = useDispatch();
+  const dispatch: AppDispatch = useAppDispatch();
 
-  //   const { showSignup } = useSelector((state) => state.root.globalStates);
-  //   const { loading } = useSelector((state) => state.root.auth);
+  const { loading } = useAppSelector((state) => state.root.auth);
 
-  const signupRef = useRef(null);
+  const {
+    handleChangeRegisterModal,
+    showRegisterModal,
+    handleChangeLoginModal,
+  } = useGlobalContext();
+
+  const signupRef = useRef<HTMLFormElement>(null);
 
   const { t } = useTranslation();
 
-  //   const { AbortControllerRef, abortApiCall } = useAbortApiCall();
-  //   const { signupSchema } = ValidationSchema();
+  const { AbortControllerRef, abortApiCall } = useAbortApiCall();
+  const { signupSchema } = ValidationSchema();
 
-  //   const {
-  //     register,
-  //     handleSubmit,
-  //     getValues,
-  //     setValue,
-  //     control,
-  //     watch,
-  //     resetField,
-  //     formState: { errors },
-  //   } = useForm({
-  //     shouldFocusError: true,
-  //     resolver: yupResolver(signupSchema),
-  //   });
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    setValue,
+    control,
+    watch,
+    resetField,
+    formState: { errors },
+  } = useForm({
+    shouldFocusError: true,
+    resolver: yupResolver(signupSchema),
+  });
 
-  //   const onSubmit = (data) => {
-  //     const {
-  //       fname,
-  //       lname,
-  //       email,
-  //       phone,
-  //       civility,
-  //       password,
-  //       address,
-  //       city,
-  //       zipCode,
-  //       province,
-  //       country,
-  //       mobile,
-  //       company,
-  //     } = data;
-  //     let shippingAddress = {
-  //       address1: address,
-  //       address2: "",
-  //       address3: "",
-  //       zipCode,
-  //       city,
-  //       province,
-  //       country,
-  //     };
-  //     if (!isPossiblePhoneNumber(phone) || !isValidPhoneNumber(phone)) {
-  //       toast.remove();
-  //       toast.error(t("phone is invalid"));
-  //       return true;
-  //     } else if (
-  //       (getValues("mobile") !== "" && !isPossiblePhoneNumber(phone)) ||
-  //       !isValidPhoneNumber(phone)
-  //     ) {
-  //       toast.remove();
-  //       toast.error(t("phone is invalid"));
-  //       return true;
-  //     }
+  const onSubmit = async (data: any) => {
+    const {
+      fname,
+      lname,
+      email,
+      phone,
+      civility,
+      password,
+      address,
+      city,
+      zipCode,
+      province,
+      country,
+      mobile,
+      company,
+    } = data;
+    let shippingAddress = {
+      address1: address,
+      address2: "",
+      address3: "",
+      zipCode,
+      city,
+      province,
+      country,
+    };
+    if (!isPossiblePhoneNumber(phone) || !isValidPhoneNumber(phone)) {
+      toast.remove();
+      toast.error(t("phone is invalid"));
+      return true;
+    } else if (
+      (getValues("mobile") !== "" && !isPossiblePhoneNumber(phone)) ||
+      !isValidPhoneNumber(phone)
+    ) {
+      toast.remove();
+      toast.error(t("phone is invalid"));
+      return true;
+    }
 
-  //     const response = dispatch(
-  //       handleRegisterUser({
-  //         fname,
-  //         lname,
-  //         email,
-  //         phone,
-  //         civility,
-  //         password,
-  //         mobile,
-  //         company,
-  //         shippingAddress,
-  //         signal: AbortControllerRef,
-  //       }),
-  //     );
-  //     if (response) {
-  //       response.then((res) => {
-  //         if (res?.payload?.status === "success") {
-  //           toast.success(t("sign up successfully"));
-  //           dispatch(handleSuccess());
-  //           dispatch(handleChangeShowSignup(false));
-  //           dispatch(handleGetUserAddress({ token: res?.payload?.token }));
-  //         }
-  //       });
-  //     }
-  //   };
+    const response = dispatch(
+      handleRegisterUser({
+        fname,
+        lname,
+        email,
+        phone,
+        civility,
+        password,
+        mobile,
+        company,
+        shippingAddress,
+      })
+    );
+    if (response) {
+      response.then((res) => {
+        if (res?.payload?.status === "success") {
+          toast.success(t("sign up successfully"));
+          // dispatch(handleSuccess());
+          handleChangeRegisterModal(false);
+          // dispatch(handleGetUserAddress({ token: res?.payload?.token }));
+        }
+      });
+    }
+  };
 
   // useEffect(() => {
-  //   if (showSignup) {
+  //   if (showRegisterModal) {
   //     window.document.body.style.overflow = "hidden";
   //   }
-  //   const handleClickOutside = (event) => {
+  //   const handleClickOutside = (event: MouseEvent) => {
   //     if (
-  //       signupRef.current &&
-  //       !signupRef.current.contains(event?.target) &&
-  //       showSignup
+  //       signupRef.current instanceof HTMLFormElement &&
+  //       !signupRef.current.contains(event.target as Node) &&
+  //       showRegisterModal
   //     ) {
-  //       dispatch(handleChangeShowSignup(false));
+  //       handleChangeRegisterModal(false);
   //       window.document.body.style.overflow = "unset";
+  //       // abortApiCall();
   //     }
   //   };
   //   document.addEventListener("click", handleClickOutside, true);
   //   return () => {
   //     document.removeEventListener("click", handleClickOutside, true);
   //   };
-  // }, [handleClickOutside, showSignup]);
+  // }, [handleClickOutside, showRegisterModal, signupRef]);
 
-  //   function handleClickOutside() {
-  //     dispatch(handleChangeShowSignup(false));
-  //     window.document.body.style.overflow = "unset";
-  //   }
+  // function handleClickOutside(): void {
+  //   handleChangeRegisterModal(false);
+  //   window.document.body.style.overflow = "unset";
+  // }
 
-  //   useEffect(() => {
-  //     setCountries(Country.getAllCountries());
+  useEffect(() => {
+    setCountries(Country.getAllCountries());
 
-  //     return () => {
-  //       abortApiCall();
-  //       window.document.body.style.overflow = "unset";
-  //     };
-  //   }, []);
+    return () => {
+      abortApiCall();
+      window.document.body.style.overflow = "unset";
+    };
+  }, []);
 
-  //   useEffect(() => {
-  //     let findCountry = "";
-  //     findCountry = Country.getAllCountries().find(
-  //       (c) => c.name === getValues("country"),
-  //     );
-  //     if (getValues("country") === "") setShowStateField(true);
-  //     else if (
-  //       State.getStatesOfCountry(findCountry?.isoCode).length > 0 &&
-  //       getValues("country") !== ""
-  //     ) {
-  //       resetField("province", "");
-  //       setStates(State.getStatesOfCountry(findCountry?.isoCode));
-  //       !showStateField && setShowStateField(true);
-  //     } else {
-  //       setShowStateField(false);
-  //     }
-  //   }, [watch("country")]);
+  useEffect(() => {
+    let findCountry: CountryType = Country.getAllCountries().find(
+      (c) => c.name === getValues("country")
+    );
+    if (getValues("country") === "") setShowStateField(true);
+    else if (
+      State.getStatesOfCountry(findCountry?.isoCode).length > 0 &&
+      getValues("country") !== ""
+    ) {
+      resetField("province", "");
+      setStates(State.getStatesOfCountry(findCountry?.isoCode));
+      !showStateField && setShowStateField(true);
+    } else {
+      setShowStateField(false);
+    }
+  }, [watch("country")]);
 
   return (
-    <div className="fixed z-10 inset-0 bg-black bg-opacity-50 overflow-y-scroll hide_scrollbar">
+    <div className="fixed z-50 inset-0 bg-black bg-opacity-50 overflow-y-scroll hide_scrollbar">
       <form
-        // onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
         ref={signupRef}
         className="absolute scrollbar z-10 xl:w-1/3 md:w-1/2 w-11/12 h-auto md:p-5 p-2 rounded-lg bg-white left-1/2 -translate-x-1/2 top-10 space-y-3"
       >
@@ -188,9 +188,9 @@ const SignupModal = () => {
           <AiOutlineClose
             size={20}
             role="button"
-            //     onClick={() => {
-            //       dispatch(handleChangeShowSignup(false));
-            //     }}
+            onClick={() => {
+              handleChangeRegisterModal(false);
+            }}
           />
         </div>
         {/* name */}
@@ -204,9 +204,9 @@ const SignupModal = () => {
               type="text"
               className="input_field"
               placeholder={t("first name")}
-              //       {...register("fname")}
+              {...register("fname")}
             />
-            {/* <span className="error">{errors?.fname?.message}</span> */}
+            <span className="error">{errors?.fname?.message}</span>
           </div>
           <div className="w-1/2">
             <label htmlFor="lname" className="Label">
@@ -216,9 +216,9 @@ const SignupModal = () => {
               type="text"
               className="input_field"
               placeholder={t("last name")}
-              //       {...register("lname")}
+              {...register("lname")}
             />
-            {/* <span className="error">{errors?.lname?.message}</span> */}
+            <span className="error">{errors?.lname?.message}</span>
           </div>
         </div>
         {/* email */}
@@ -230,72 +230,29 @@ const SignupModal = () => {
             type="email"
             className="input_field"
             placeholder="hello@gmail.com"
-            //     {...register("email")}
+            {...register("email")}
           />
-          {/* <span className="error">{errors?.email?.message}</span> */}
+          <span className="error">{errors?.email?.message}</span>
         </div>
         {/* phone */}
         <div>
           <label htmlFor="phone" className="Label">
             {t("phone")}
           </label>
-          {/* <Controller
+          <Controller
             name="phone"
-            //     control={control}
-            rules={
-              {
-                //       validate: (value) => isValidPhoneNumber(value),
-              }
-            }
-            render={({ field: { onChange, value } }) => (
-              <PhoneInput
-                country={"in"}
-                // onChange={(value) => {
-                //   onChange((e) => {
-                //     setValue("phone", "+".concat(value));
-                //   });
-                // }}
-                autocompleteSearch={true}
-                countryCodeEditable={false}
-                enableSearch={true}
-                inputStyle={{
-                  width: "100%",
-                  background: "#f9f9f9",
-                  padding: "22px 0 22px 50px",
-                  borderRadius: "5px",
-                  fontSize: "1rem",
-                  // opacity:'0.7'
-                }}
-                dropdownStyle={{
-                  background: "white",
-                  color: "#13216e",
-                  fontWeight: "600",
-                  padding: "0px 0px 0px 10px",
-                }}
-              />
-            )}
-          /> */}
-          {/* <span className="error">{errors?.phone?.message}</span> */}
-        </div>
-        {/* mobile */}
-        <div>
-          <label htmlFor="mobile" className="Label">
-            {t("mobile")}
-          </label>
-          {/* <Controller
-            name="mobile"
-            //     control={control}
+            control={control}
             rules={{
               validate: (value) => isValidPhoneNumber(value),
             }}
             render={({ field: { onChange, value } }) => (
               <PhoneInput
                 country={"in"}
-                // onChange={(value) => {
-                //   onChange((e) => {
-                //     setValue("mobile", "+".concat(value));
-                //   });
-                // }}
+                onChange={(value) => {
+                  onChange(() => {
+                    setValue("phone", "+".concat(value));
+                  });
+                }}
                 autocompleteSearch={true}
                 countryCodeEditable={false}
                 enableSearch={true}
@@ -315,22 +272,58 @@ const SignupModal = () => {
                 }}
               />
             )}
-          /> */}
-          {/* <span className="error">{errors?.phone?.message}</span> */}
+          />
+          <span className="error">{errors?.phone?.message}</span>
+        </div>
+        {/* mobile */}
+        <div>
+          <label htmlFor="mobile" className="Label">
+            {t("mobile")}
+          </label>
+          <Controller
+            name="mobile"
+            control={control}
+            rules={{
+              validate: (value: any) => isValidPhoneNumber(value),
+            }}
+            render={({ field: { onChange, value } }) => (
+              <PhoneInput
+                country={"in"}
+                onChange={(value) => {
+                  onChange(() => {
+                    setValue("mobile", "+".concat(value));
+                  });
+                }}
+                autocompleteSearch={true}
+                countryCodeEditable={false}
+                enableSearch={true}
+                inputStyle={{
+                  width: "100%",
+                  background: "#f9f9f9",
+                  padding: "22px 0 22px 50px",
+                  borderRadius: "5px",
+                  fontSize: "1rem",
+                  // opacity:'0.7'
+                }}
+                dropdownStyle={{
+                  background: "white",
+                  color: "#13216e",
+                  fontWeight: "600",
+                  padding: "0px 0px 0px 10px",
+                }}
+              />
+            )}
+          />
+          <span className="error">{errors?.phone?.message}</span>
         </div>
         {/* company name */}
         <div>
           <label htmlFor="company" className="Label">
             {t("company name")}
           </label>
-          <input
-            type="text"
-            name="company"
-            //     {...register("company")}
-            className="input_field"
-          />
+          <input type="text" {...register("company")} className="input_field" />
 
-          {/* <span className="error">{errors?.company?.message}</span> */}
+          <span className="error">{errors?.company?.message}</span>
         </div>
         {/* civility */}
         <div>
@@ -338,7 +331,7 @@ const SignupModal = () => {
             {t("civility")}
           </label>
           <select
-            //     {...register("civility")}
+            {...register("civility")}
             name="civility"
             className="input_field"
           >
@@ -348,7 +341,7 @@ const SignupModal = () => {
             <option value="Ms.">Ms.</option>
           </select>
 
-          {/* <span className="error">{errors?.civility?.message}</span> */}
+          <span className="error">{errors?.civility?.message}</span>
         </div>
         {/* country */}
         <div className="flex items-center gap-2">
@@ -357,17 +350,17 @@ const SignupModal = () => {
               {t("country")}
             </label>
             <select
-              name="country"
-              //       {...register("country")}
+              // name="country"
+              {...register("country")}
               className="input_field"
             >
               <option label="Select country"></option>
-              {/* {countries.length > 0 &&
+              {countries.length > 0 &&
                 countries.map((country, i) => (
                   <option value={country?.name} key={i}>
                     {country?.name}
                   </option>
-                ))} */}
+                ))}
             </select>
             {/* <input
               type="text"
@@ -375,7 +368,7 @@ const SignupModal = () => {
               className="input_field"
               placeholder="country"
             /> */}
-            {/* <span className="error">{errors?.country?.message}</span> */}
+            <span className="error">{errors?.country?.message}</span>
           </div>
 
           <div className="w-1/2">
@@ -384,11 +377,11 @@ const SignupModal = () => {
             </label>
             <input
               type="text"
-              //       {...register("city")}
+              {...register("city")}
               className="input_field"
               placeholder="city"
             />
-            {/* <span className="error">{errors?.city?.message}</span> */}
+            <span className="error">{errors?.city?.message}</span>
           </div>
         </div>
         {/* province */}
@@ -403,21 +396,17 @@ const SignupModal = () => {
               {...register("province")}
               className="input_field"
             /> */}
-            <select
-              name="state"
-              //       {...register("province")}
-              className="input_field"
-            >
+            <select {...register("province")} className="input_field">
               <option label="Select province"></option>
-              {/* {states.length > 0 &&
+              {states.length > 0 &&
                 states.map((state, i) => (
                   <option value={state?.name} key={i}>
                     {state?.name}
                   </option>
-                ))} */}
+                ))}
             </select>
 
-            {/* <span className="error">{errors?.province?.message}</span> */}
+            <span className="error">{errors?.province?.message}</span>
           </div>
         )}
         {/* address */}
@@ -427,11 +416,11 @@ const SignupModal = () => {
           </label>
           <input
             type="text"
-            //     {...register("address")}
+            {...register("address")}
             className="input_field"
             placeholder="address"
           />
-          {/* <span className="error">{errors?.address?.message}</span> */}
+          <span className="error">{errors?.address?.message}</span>
         </div>
 
         {/* postal code */}
@@ -440,39 +429,46 @@ const SignupModal = () => {
             {t("postal code")}
           </label>
           <input
-            type="number"
+            type="text"
             className="input_field"
             placeholder="postal code"
-            //     {...register("zipCode")}
+            {...register("zipCode")}
           />
-          {/* <span className="error">{errors?.zipCode?.message}</span> */}
+          <span className="error">{errors?.zipCode?.message}</span>
         </div>
         {/* password */}
-        <div>
+        <div className="relative">
           <label htmlFor="password" className="Label">
             {t("password")}
           </label>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             className="input_field"
             placeholder="********"
-            //     {...register("password")}
+            {...register("password")}
           />
-          {/* <span className="error">{errors?.password?.message}</span> */}
+          <button
+            onClick={() => setShowPassword((prev) => !prev)}
+            type="button"
+            className="absolute top-1/2 -translate-y-[10%] right-3 bg-gray-300 hover:font-semibold transition-all duration-100 rounded-lg p-1"
+          >
+            {showPassword ? "Hide" : "Show"}
+          </button>
+          <span className="error">{errors?.password?.message}</span>
         </div>
         {/* btn */}
-        <button type="submit" className="blue_button w-full">
-          {/* {loading ? t("Registering").concat("...") : t("register")} */}
-          register
+        <button type="submit" disabled={loading} className="blue_button w-full">
+          {loading ? t("Registering").concat("...") : t("register")}
+          {/* register */}
         </button>
         {/* sign in link */}
         <p className="text-center">
           {t("Already have an account")}?{" "}
           <span
-            //     onClick={() => {
-            //       dispatch(handleChangeShowSignin(true));
-            //       dispatch(handleChangeShowSignup(false));
-            //     }}
+            onClick={() => {
+              handleChangeRegisterModal(false);
+              handleChangeLoginModal(true);
+            }}
             className="text-darkBlue font-semibold cursor-pointer"
           >
             {t("login")}

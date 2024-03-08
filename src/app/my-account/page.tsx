@@ -3,10 +3,17 @@ import ActiveTabAccount from "@/components/MyAccount/ActiveTabAccount";
 import Address from "@/components/MyAccount/Addresses";
 import ChangePassword from "@/components/MyAccount/ChangePassword";
 import Profile from "@/components/MyAccount/Profile";
-import React, { useState } from "react";
+import useAuthCheck from "@/hooks/useAuthCheck";
+import React, { useEffect, useState } from "react";
 
 const MyAccount = () => {
   const [activeComponent, setActiveComponent] = useState<String>("profile");
+
+  const { checkAuth } = useAuthCheck();
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
 
   return (
     <div className="container xl:px-3 lg:px-10 md:px-5 px-3 mx-auto py-10 md:space-y-8 space-y-5 mb-20 xl:w-9/12 w-full">

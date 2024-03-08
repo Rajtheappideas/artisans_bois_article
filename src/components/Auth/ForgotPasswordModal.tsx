@@ -16,13 +16,13 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import toast from "react-hot-toast";
+import { useGlobalContext } from "@/context/globalContext";
+import useAbortApiCall from "@/hooks/useAbortApiCall";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { handleForgotPassword, handleStoreUserEmail } from "@/redux/AuthSlice";
 
 const ForgotPasswordModal = () => {
-//   const { showForgotPassword } = useSelector(
-//     (state) => state.root.globalStates
-//   );
-
-  const forgotRef = useRef(null);
+  const forgotRef = useRef<HTMLFormElement>(null);
 
   const { t } = useTranslation();
 
@@ -30,11 +30,14 @@ const ForgotPasswordModal = () => {
     email: yup.string().email().required(t("email is required")).trim(),
   });
 
-//   const { loading, user, error } = useSelector((state) => state.root.auth);
+  const { handleChangeForgotPasswordModal, handleChangeOtpVerifyModal } =
+    useGlobalContext();
 
-//   const dispatch = useDispatch();
+  const { loading, user, error } = useAppSelector((state) => state.root.auth);
 
-//   const { AbortControllerRef, abortApiCall } = useAbortApiCall();
+  const dispatch = useAppDispatch();
+
+  const { AbortControllerRef, abortApiCall } = useAbortApiCall();
 
   const {
     register,
@@ -46,79 +49,83 @@ const ForgotPasswordModal = () => {
     resolver: yupResolver(signinSchema),
   });
 
-//   const onSubmit = (data) => {
-//     const { email } = data;
-//     const response = dispatch(
-//       handleForgotPassword({
-//         email,
-//         signal: AbortControllerRef,
-//       })
-//     );
-//     if (response) {
-//       response.then((res) => {
-//         if (res?.payload?.status === "success") {
-//           toast.success(t("check your mails"), { duration: 4000 });
-//           dispatch(handleStoreUserEmail(getValues("email")));
-//           dispatch(handleChangeShowOtpField(true));
-//           dispatch(handleChangeShowForgotPassword(false));
-//         } else if (res?.payload?.status === "error") {
-//           toast.error(res?.payload?.message);
-//         }
-//       });
-//     }
-//   };
+  const onSubmit = (data: any) => {
+    const { email } = data;
+    const response = dispatch(
+      handleForgotPassword({
+        email,
+      })
+    );
+    if (response) {
+      response.then((res) => {
+        if (res?.payload?.status === "success") {
+          toast.success(t("check your mails"), { duration: 4000 });
+          dispatch(handleStoreUserEmail(getValues("email")));
+          handleChangeForgotPasswordModal(false);
+          handleChangeOtpVerifyModal(true);
+        } else if (res?.payload?.status === "error") {
+          toast.error(res?.payload?.message);
+        }
+      });
+    }
+  };
 
-//   useEffect(() => {
-//     return () => {
-//       abortApiCall();
-//       window.document.body.style.overflow = "unset";
-//     };
-//   }, []);
+  useEffect(() => {
+    return () => {
+      abortApiCall();
+      window.document.body.style.overflow = "unset";
+    };
+  }, []);
 
   // useEffect(() => {
-  //   if (showForgotPassword) {
+  //   if (showForgotPasswordModal) {
   //     window.document.body.style.overflow = "hidden";
   //   }
-  //   const handleClickOutside = (event) => {
+  //   const handleClickOutside = (event: MouseEvent) => {
   //     if (
-  //       forgotRef.current &&
-  //       !forgotRef.current.contains(event?.target) &&
-  //       showForgotPassword
+  //       forgotRef.current instanceof HTMLFormElement &&
+  //       !forgotRef.current.contains(event.target as Node) &&
+  //       showForgotPasswordModal
   //     ) {
-  //       dispatch(handleChangeShowForgotPassword(false));
+  //       handleChangeForgotPasswordModal(false);
   //       window.document.body.style.overflow = "unset";
+  //       abortApiCall();
   //     }
   //   };
   //   document.addEventListener("click", handleClickOutside, true);
   //   return () => {
   //     document.removeEventListener("click", handleClickOutside, true);
   //   };
-  // }, [handleClickOutside, showForgotPassword]);
+  // }, [handleClickOutside, showForgotPasswordModal, forgotRef]);
 
-  // function handleClickOutside() {
-  //   dispatch(handleChangeShowForgotPassword(false));
+  // function handleClickOutside(): void {
+  //   handleChangeForgotPasswordModal(false);
   //   window.document.body.style.overflow = "unset";
   // }
 
   return (
-    <div className="fixed z-10 inset-0 bg-black bg-opacity-50">
+    <div className="fixed z-50 inset-0 bg-black bg-opacity-50">
       <form
-        // onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
         ref={forgotRef}
         className="absolute z-10 xl:w-1/3 md:w-1/2 w-11/12 h-auto md:p-7 p-2 rounded-lg bg-white left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 space-y-3"
       >
         <div className="w-full flex items-center justify-between">
-          <p className="font-semibold text-left md:text-lg capitalize">{t("Forgot password")}</p>
+          <p className="font-semibold text-left md:text-lg capitalize">
+            {t("Forgot password")}
+          </p>
           <AiOutlineClose
             size={20}
             role="button"
             onClick={() => {
-        //       dispatch(handleChangeShowForgotPassword(false));
+              handleChangeForgotPasswordModal(false);
             }}
           />
         </div>
         <p className="text-gray-400 text-sm">
-          {t("Please enter your username or email address. You will receive a link by email to create a new password.")}
+          {t(
+            "Please enter your username or email address. You will receive a link by email to create a new password."
+          )}
         </p>
         <div>
           <label htmlFor="email" className="Label">
@@ -133,9 +140,8 @@ const ForgotPasswordModal = () => {
         </div>
         <span className="error">{errors?.email?.message}</span>
 
-        <button  type="submit" className="blue_button w-full">
-          {/* {loading ? t("submitting").concat("...") : t("submit")} */}
-          Submit
+        <button type="submit" disabled={loading} className="blue_button w-full">
+          {loading ? t("submitting").concat("...") : t("submit")}
         </button>
       </form>
     </div>

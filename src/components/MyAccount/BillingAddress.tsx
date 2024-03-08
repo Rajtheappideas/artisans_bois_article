@@ -1,35 +1,36 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
-// import useAbortApiCall from "../../hooks/useAbortApiCall";
 import { yupResolver } from "@hookform/resolvers/yup";
-// import { handleChangeUserAddress } from "../../redux/AuthSlice";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
-// import ValidationSchema from "../../validations/ValidationSchema";
 import { useTranslation } from "react-i18next";
 import { Country, State } from "country-state-city";
+import { CountryType, StateType } from "@/types";
+import useAbortApiCall from "@/hooks/useAbortApiCall";
+import ValidationSchema from "@/validations/ValidationSchema";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { handleChangeUserAddress } from "@/redux/AuthSlice";
 
 interface BillingAddressProps {
-  setActiveAddress: (value: String) => void;
+  setActiveAddress: (value: string) => void;
 }
 
 const BillingAddress = ({ setActiveAddress }: BillingAddressProps) => {
-  const [countries, setCountries] = useState([]);
-  const [states, setStates] = useState([]);
-  const [showStateField, setShowStateField] = useState(true);
+  const [countries, setCountries] = useState<CountryType[]>([]);
+  const [states, setStates] = useState<StateType[]>([]);
+  const [showStateField, setShowStateField] = useState<boolean>(true);
 
-  //   const { user, token, addressLoading, addresses } = useSelector(
-  //     (state) => state.root.auth
-  //   );
+  const { user, token, addressLoading, addresses } = useAppSelector(
+    (state) => state.root.auth
+  );
 
-//   const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { t } = useTranslation();
 
-  //   const { AbortControllerRef, abortApiCall } = useAbortApiCall();
-  //   const { AddressSchema } = ValidationSchema(showStateField);
+  const { AbortControllerRef, abortApiCall } = useAbortApiCall();
+  const { AddressSchema } = ValidationSchema(showStateField);
 
   const {
     register,
@@ -41,7 +42,7 @@ const BillingAddress = ({ setActiveAddress }: BillingAddressProps) => {
     formState: { errors, isDirty },
   } = useForm({
     shouldFocusError: true,
-    //     resolver: yupResolver(AddressSchema),
+    resolver: yupResolver(AddressSchema),
     defaultValues: {
       address1: "",
       address2: "",
@@ -56,69 +57,68 @@ const BillingAddress = ({ setActiveAddress }: BillingAddressProps) => {
   const onSubmit = (data: any) => {
     const { address1, address2, address3, city, zipCode, province, country } =
       data;
-console.log(data);
-
-//     if (!isDirty) return;
-//     const response = dispatch(
-//       handleChangeUserAddress({
-//         addressType: "billing",
-//         address1,
-//         address2,
-//         address3,
-//         city,
-//         province,
-//         country,
-//         zipCode,
-//         token,
-//         signal: AbortControllerRef,
-//       })
-//     );
-//     if (response) {
-//       response.then((res) => {
-//         if (res?.payload?.status === "success") {
-//           toast.success(t("address added successfully."), { duration: 2000 });
-//           setActiveAddress("");
-//           window.scrollTo({ top: 0, behavior: "smooth" });
-//         }
-//       });
-//     }
+    if (!isDirty) return;
+    const response = dispatch(
+      handleChangeUserAddress({
+        addressType: "billing",
+        address1,
+        address2,
+        address3,
+        city,
+        province,
+        country,
+        zipCode,
+        token,
+      })
+    );
+    if (response) {
+      response.then((res) => {
+        if (res?.payload?.status === "success") {
+          toast.success(t("address added successfully."), { duration: 2000 });
+          setActiveAddress("");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      });
+    }
   };
 
   useEffect(() => {
-//     setCountries(Country.getAllCountries());
+    setCountries(Country.getAllCountries());
     return () => {
-//       abortApiCall();
+      abortApiCall();
     };
   }, []);
 
-//   useEffect(() => {
-//     let findCountry = "";
-//     findCountry = Country.getAllCountries().find(
-//       (c) => c.name === getValues("country")
-//     );
-//     if (getValues("country") === "") setShowStateField(true);
-//     else if (State.getStatesOfCountry(findCountry?.isoCode).length > 0) {
-//       if (getValues().province === "") {
-//         setValue(
-//           "province",
-//           State.getStatesOfCountry(findCountry?.isoCode)[0]?.name
-//         );
-//       }
-//       setStates(State.getStatesOfCountry(findCountry?.isoCode));
-//       !showStateField && setShowStateField(true);
-//     } else {
-//       setValue("province", "");
-//       setShowStateField(false);
-//       setStates([]);
-//     }
-//   }, [watch("country")]);
+  useEffect(() => {
+    let findCountry: CountryType | undefined;
+    findCountry = Country.getAllCountries().find(
+      (c) => c.name === getValues("country")
+    );
+
+    if (getValues("country") === "") setShowStateField(true);
+    else if (State.getStatesOfCountry(findCountry?.isoCode).length > 0) {
+      if (getValues().province === "") {
+        setValue(
+          "province",
+          State.getStatesOfCountry(findCountry?.isoCode)[0]?.name
+        );
+      }
+
+      setStates(State.getStatesOfCountry(findCountry?.isoCode));
+      !showStateField && setShowStateField(true);
+    } else {
+      setValue("province", "");
+      setShowStateField(false);
+      setStates([]);
+    }
+  }, [watch("country")]);
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="w-full md:space-y-5 space-y-3 border border-gray-300 md:p-4 p-2"
     >
-      <p className="heading text-lg md:text-left text-center flex items-center justify-between md:p-4 p-2">
+      <p className="heading text-lg md:text-left text-center flex items-center justify-between md:py-4 py-2">
         <span>{t("Billing address")}</span>
         <AiOutlineClose
           onClick={() => setActiveAddress("")}
@@ -205,23 +205,15 @@ console.log(data);
         <label htmlFor="country" className="Label">
           {t("country")}
         </label>
-        <select name="country"
-        //  {...register("country")} 
-         className="input_field">
+        <select {...register("country")} className="input_field">
           <option label="Select country"></option>
-          {/* {countries.length > 0 &&
+          {countries.length > 0 &&
             countries.map((country, i) => (
               <option value={country?.name} key={i}>
                 {country?.name}
               </option>
-            ))} */}
+            ))}
         </select>
-        {/* <input
-          type="text"
-          placeholder="Type here..."
-          className="w-full input_field"
-          {...register("country")}
-        /> */}
         <span className="error">{errors?.country?.message}</span>
       </div>
       {/* province */}
@@ -230,24 +222,14 @@ console.log(data);
           <label htmlFor="province" className="Label">
             {t("state")}
           </label>
-          <select
-            name="state"
-        //     {...register("province")}
-            className="input_field"
-          >
-            {/* {states.length > 0 &&
+          <select {...register("province")} className="input_field">
+            {states.length > 0 &&
               states.map((state, i) => (
                 <option value={state?.name} key={i}>
                   {state?.name}
                 </option>
-              ))} */}
+              ))}
           </select>
-          {/* <input
-          type="text"
-          placeholder="Type here..."
-          className="w-full input_field"
-          {...register("province")}
-        /> */}
           <span className="error">{errors?.province?.message}</span>
         </div>
       )}
@@ -279,11 +261,10 @@ console.log(data);
       </div>
       {/* btn */}
       <button
-        // disabled={addressLoading}
+        disabled={addressLoading}
         className="blue_button capitalize md:w-60 w-full md:h-12 h-10"
       >
-        {/* {addressLoading ? t("Saving").concat("...") : t("Save address")} */}
-        Save address
+        {addressLoading ? t("Saving").concat("...") : t("Save address")}
       </button>
     </form>
   );

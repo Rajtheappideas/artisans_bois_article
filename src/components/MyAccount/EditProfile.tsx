@@ -1,7 +1,5 @@
 "use client";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-// import useAbortApiCall from "../../hooks/useAbortApiCall";
 import { useTranslation } from "react-i18next";
 import { Controller, useForm } from "react-hook-form";
 import PhoneInput from "react-phone-input-2";
@@ -12,30 +10,33 @@ import {
 } from "react-phone-number-input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import toast from "react-hot-toast";
-// import { handleEditProfile } from "../../redux/AuthSlice";
-// import ValidationSchema from "../../validations/ValidationSchema";
 import { useState } from "react";
 import { Country, State } from "country-state-city";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import ValidationSchema from "@/validations/ValidationSchema";
+import useAbortApiCall from "@/hooks/useAbortApiCall";
+import { handleEditProfile } from "@/redux/AuthSlice";
+import { CountryType } from "@/types";
 
 interface EditProfileProps {
   setShowEditProfile: (value: Boolean) => void;
 }
 
 const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
-  const [countries, setCountries] = useState<[]>([]);
+  const [countries, setCountries] = useState<CountryType[]>([]);
   const [states, setStates] = useState<[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<String>("");
   const [showStateField, setShowStateField] = useState<Boolean>(true);
 
-  //   const { user, token, editProfileLoading, addresses } = useSelector(
-  //     (state) => state.root.auth
-  //   );
+  const { user, token, editProfileLoading, addresses } = useAppSelector(
+    (state) => state.root.auth
+  );
 
   const { t } = useTranslation();
-  //   const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  //   const { AbortControllerRef, abortApiCall } = useAbortApiCall();
-  //   const { profileSchema } = ValidationSchema();
+  const { AbortControllerRef, abortApiCall } = useAbortApiCall();
+  const { profileSchema } = ValidationSchema();
 
   const {
     register,
@@ -48,126 +49,124 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
     formState: { errors, isDirty },
   } = useForm({
     shouldFocusError: true,
-    //     resolver: yupResolver(profileSchema),
+    resolver: yupResolver(profileSchema),
     defaultValues: {
-      //       fname: user?.fname,
-      //       lname: user?.lname,
-      //       phone: user?.phone,
-      //       civility: user?.civility,
-      //       company: user?.company,
-      //       mobile: user?.mobile,
-      //       country: user?.shippingAddress?.country,
-      //       city: user?.shippingAddress?.city,
-      //       zipCode: user?.shippingAddress?.zipCode,
-      //       address: user?.shippingAddress?.address1,
-      //       province: user?.shippingAddress?.province,
-      //       province: user?.shippingAddress?.province,
+      fname: user?.fname,
+      lname: user?.lname,
+      phone: user?.phone as string,
+      civility: user?.civility,
+      company: user?.company,
+      mobile: user?.mobile as string,
+      country: user?.shippingAddress?.country,
+      city: user?.shippingAddress?.city,
+      zipCode: user?.shippingAddress?.zipCode,
+      address: user?.shippingAddress?.address1,
+      province: user?.shippingAddress?.province,
     },
   });
 
-  //   const onSubmit = (data) => {
-  //     const {
-  //       fname,
-  //       lname,
-  //       phone,
-  //       civility,
-  //       address,
-  //       city,
-  //       zipCode,
-  //       mobile,
-  //       company,
-  //       country,
-  //       province,
-  //     } = data;
+  const onSubmit = (data: any) => {
+    const {
+      fname,
+      lname,
+      phone,
+      civility,
+      address,
+      city,
+      zipCode,
+      mobile,
+      company,
+      country,
+      province,
+    } = data;
 
-  //     if (!isDirty) return;
-  //     if (!isPossiblePhoneNumber(phone) || !isValidPhoneNumber(phone)) {
-  //       toast.remove();
-  //       toast.error(t("Phone is invalid"));
-  //       return true;
-  //     } else if (
-  //       (getValues("mobile") !== "" && !isPossiblePhoneNumber(phone)) ||
-  //       !isValidPhoneNumber(phone)
-  //     ) {
-  //       toast.remove();
-  //       toast.error(t("Phone is invalid"));
-  //       return true;
-  //     }
-  //     let shippingAddress = {
-  //       address1: address,
-  //       address2: "",
-  //       address3: "",
-  //       zipCode,
-  //       city,
-  //       province,
-  //       country,
-  //     };
-  //     const response = dispatch(
-  //       handleEditProfile({
-  //         fname,
-  //         lname,
-  //         phone,
-  //         civility,
-  //         mobile,
-  //         company,
-  //         shippingAddress,
-  //         token,
-  //         signal: AbortControllerRef,
-  //       })
-  //     );
-  //     if (response) {
-  //       response.then((res) => {
-  //         if (res?.payload?.status === "success") {
-  //           toast.success(t("Edit profile Successfully."), { duration: 2000 });
-  //         }
-  //       });
-  //     }
-  //   };
+    if (!isDirty) return;
+    if (!isPossiblePhoneNumber(phone) || !isValidPhoneNumber(phone)) {
+      toast.remove();
+      toast.error(t("Phone is invalid"));
+      return true;
+    } else if (
+      (getValues("mobile") !== "" && !isPossiblePhoneNumber(phone)) ||
+      !isValidPhoneNumber(phone)
+    ) {
+      toast.remove();
+      toast.error(t("Phone is invalid"));
+      return true;
+    }
+    let shippingAddress = {
+      address1: address,
+      address2: "",
+      address3: "",
+      zipCode,
+      city,
+      province,
+      country,
+    };
+    const response = dispatch(
+      handleEditProfile({
+        fname,
+        lname,
+        phone,
+        civility,
+        mobile,
+        company,
+        shippingAddress,
+        token,
+      })
+    );
+    if (response) {
+      response.then((res) => {
+        if (res?.payload?.status === "success") {
+          toast.success(t("Edit profile Successfully."), { duration: 2000 });
+        }
+      });
+    }
+  };
 
   useEffect(() => {
-    //     setCountries(Country.getAllCountries());
+    setCountries(Country.getAllCountries());
     return () => {
-      //       abortApiCall();
+      abortApiCall();
     };
   }, []);
 
-  //   useEffect(() => {
-  //     let findCountry = "";
-  //     if (selectedCountry === "") {
-  //       findCountry = Country.getAllCountries().find(
-  //         (c) => c.name === addresses?.shippingAddress?.country
-  //       );
-  //       setSelectedCountry(findCountry?.name);
-  //     }
-  //     findCountry = Country.getAllCountries().find(
-  //       (c) => c.name === getValues("country")
-  //     );
-  //     const states = State.getStatesOfCountry(findCountry?.isoCode);
-  //     if (State.getStatesOfCountry(findCountry?.isoCode).length > 0) {
-  //       setStates(State.getStatesOfCountry(findCountry?.isoCode));
-  //       !showStateField && setShowStateField(true);
-  //       if (getValues().province === "") {
-  //         setValue(
-  //           "province",
-  //           State.getStatesOfCountry(findCountry?.isoCode)[0]?.name
-  //         );
-  //       }
-  //       const findStateInStates = states.find((s) =>
-  //         s.name.includes(getValues().province)
-  //       );
-  //       if (!findStateInStates) {
-  //         setValue("province", states[0]?.name);
-  //       }
-  //     } else {
-  //       setValue("province", "");
-  //       setShowStateField(false);
-  //       setStates([]);
-  //     }
-  //   }, [watch("country"), watch("province")]);
+  useEffect(() => {
+    let findCountry = {};
+    if (selectedCountry === "") {
+      findCountry = Country.getAllCountries().find(
+        (c) => c.name === addresses?.shippingAddress?.country
+      );
+      setSelectedCountry(findCountry?.name);
+    }
+    findCountry = Country.getAllCountries().find(
+      (c) => c.name === getValues("country")
+    );
+    const states = State.getStatesOfCountry(findCountry?.isoCode);
+    if (State.getStatesOfCountry(findCountry?.isoCode).length > 0) {
+      setStates(State.getStatesOfCountry(findCountry?.isoCode));
+      !showStateField && setShowStateField(true);
+      if (getValues().province === "") {
+        setValue(
+          "province",
+          State.getStatesOfCountry(findCountry?.isoCode)[0]?.name
+        );
+      }
+      const findStateInStates = states.find((s) =>
+        s.name.includes(getValues().province)
+      );
+      if (!findStateInStates) {
+        setValue("province", states[0]?.name);
+      }
+    } else {
+      setValue("province", "");
+      setShowStateField(false);
+      setStates([]);
+    }
+  }, [watch("country"), watch("province")]);
 
   return (
     <form
-      //       onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit)}
       className="md:space-y-3 space-y-2 md:p-5 p-2 w-full border border-gray-300"
     >
       <p className="heading text-lg md:text-left text-center">
@@ -183,9 +182,9 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
             type="text"
             placeholder="john"
             className="w-full input_field"
-            //     {...register("fname")}
+            {...register("fname")}
           />
-          {/* <span className="error">{errors?.fname?.message}</span> */}
+          <span className="error">{errors?.fname?.message}</span>
         </div>
         <div className="md:w-1/2 w-full">
           <label htmlFor="last_name" className="Label">
@@ -195,9 +194,9 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
             type="text"
             placeholder="adam"
             className="w-full input_field"
-            //     {...register("lname")}
+            {...register("lname")}
           />
-          {/* <span className="error">{errors?.lname?.message}</span> */}
+          <span className="error">{errors?.lname?.message}</span>
         </div>
       </div>
       {/* email */}
@@ -210,7 +209,7 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
           placeholder="Type here..."
           className="w-full input_field"
           disabled
-          //   value={user?.email}
+          value={user?.email}
         />
       </div>
       {/* phone */}
@@ -218,9 +217,8 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
         <label htmlFor="phone" className="Label">
           {t("phone")}
         </label>
-        phone
-        {/* <Controller
-        //   name="phone"
+        <Controller
+          name="phone"
           control={control}
           rules={{
             validate: (value) => isValidPhoneNumber(value),
@@ -229,7 +227,7 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
             <PhoneInput
               country={"in"}
               onChange={(value) => {
-                onChange((e) => {
+                onChange(() => {
                   setValue("phone", "+".concat(value));
                 });
               }}
@@ -254,15 +252,14 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
             />
           )}
         />
-        <span className="error">{errors?.phone?.message}</span> */}
+        <span className="error">{errors?.phone?.message}</span>
       </div>
       {/* mobile */}
       <div className="w-full">
         <label htmlFor="mobile" className="Label">
           {t("mobile")}
         </label>
-        mobile
-        {/* <Controller
+        <Controller
           name="mobile"
           control={control}
           rules={{
@@ -272,7 +269,7 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
             <PhoneInput
               country={"in"}
               onChange={(value) => {
-                onChange((e) => {
+                onChange(() => {
                   setValue("mobile", "+".concat(value));
                 });
               }}
@@ -297,7 +294,7 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
             />
           )}
         />
-        <span className="error">{errors?.phone?.message}</span> */}
+        <span className="error">{errors?.phone?.message}</span>
       </div>
       {/* company */}
       <div className="w-full">
@@ -308,9 +305,9 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
           type="text"
           placeholder="Type here..."
           className="w-full input_field"
-          //   {...register("company")}
+          {...register("company")}
         />
-        {/* <span className="error">{errors?.company?.message}</span> */}
+        <span className="error">{errors?.company?.message}</span>
       </div>
       {/* country */}
       <div className="w-full">
@@ -323,13 +320,9 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
           className="w-full input_field"
           {...register("country")}
         /> */}
-        <select
-          name="country"
-          //  {...register("country")}
-          className="input_field"
-        >
+        <select {...register("country")} className="input_field">
           <option value="select"></option>
-          {/* {countries.length > 0 &&
+          {countries.length > 0 &&
             countries.map((country, i) => (
               <option
                 value={country?.name}
@@ -338,9 +331,9 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
               >
                 {country?.name}
               </option>
-            ))} */}
+            ))}
         </select>
-        {/* <span className="error">{errors?.country?.message}</span> */}
+        <span className="error">{errors?.country?.message}</span>
       </div>
 
       {/* province */}
@@ -355,12 +348,8 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
           className="w-full input_field"
           {...register("province")}
         /> */}
-          <select
-            name="state"
-            //     {...register("province")}
-            className="input_field"
-          >
-            {/* {states.length > 0 &&
+          <select {...register("province")} className="input_field">
+            {states.length > 0 &&
               states.map((state, i) => (
                 <option
                   value={state?.name}
@@ -369,9 +358,9 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
                 >
                   {state?.name}
                 </option>
-              ))} */}
+              ))}
           </select>
-          {/* <span className="error">{errors?.province?.message}</span> */}
+          <span className="error">{errors?.province?.message}</span>
         </div>
       )}
       {/* address */}
@@ -383,9 +372,9 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
           type="text"
           placeholder="Type here..."
           className="w-full input_field"
-          //   {...register("address")}
+          {...register("address")}
         />
-        {/* <span className="error">{errors?.address?.message}</span> */}
+        <span className="error">{errors?.address?.message}</span>
       </div>
       {/* civility + city */}
       <div className="w-full flex md:flex-row flex-col items-center md:gap-4 gap-2">
@@ -393,11 +382,7 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
           <label htmlFor="civility" className="Label">
             {t("civility")}
           </label>
-          <select
-            //     {...register("civility")}
-            name="civility"
-            className="input_field"
-          >
+          <select {...register("civility")} className="input_field">
             <option label="Choose civility"></option>
             <option value="Mr.">Mr.</option>
             <option value="Mrs.">Mrs.</option>
@@ -410,7 +395,7 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
             className="w-full input_field"
             {...register("civility")}
           /> */}
-          {/* <span className="error">{errors?.civility?.message}</span> */}
+          <span className="error">{errors?.civility?.message}</span>
         </div>
         <div className="md:w-1/2 w-full">
           <label htmlFor="city" className="Label">
@@ -420,9 +405,9 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
             type="text"
             placeholder="city"
             className="w-full input_field"
-            //     {...register("city")}
+                {...register("city")}
           />
-          {/* <span className="error">{errors?.city?.message}</span> */}
+          <span className="error">{errors?.city?.message}</span>
         </div>
       </div>
       {/* postal code */}
@@ -434,24 +419,23 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
           type="number"
           placeholder="Type here..."
           className="w-full input_field"
-          //   {...register("zipCode")}
+            {...register("zipCode")}
         />
-        {/* <span className="error">{errors?.zipCode?.message}</span> */}
+        <span className="error">{errors?.zipCode?.message}</span>
       </div>
       {/* btn */}
       <div className="flex items-center gap-3">
         <button
           className="blue_button md:h-12 md:w-40 w-1/2"
-          //   disabled={editProfileLoading}
+            disabled={editProfileLoading}
           type="submit"
         >
-          {/* {editProfileLoading ? t("Saving").concat("...") : t("Save")} */}
-          Save
+          {editProfileLoading ? t("Saving").concat("...") : t("Save")}
         </button>
         <button
           type="button"
           onClick={() => setShowEditProfile(false)}
-          //   disabled={editProfileLoading}
+            disabled={editProfileLoading}
           className="light_gray_button md:h-12 md:w-40 w-1/2"
         >
           {t("Cancel")}

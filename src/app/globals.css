@@ -82,9 +82,6 @@ html {
   @apply text-red-600 font-medium text-sm capitalize;
 }
 
-/* .gray_button {
-  @apply bg-darkGray md:text-base text-sm text-white md:min-w-[7rem] rounded-lg text-center p-2 hover:bg-darkGray/70 active:scale-95 transition duration-100;
-} */
 
 .light_gray_button {
   @apply bg-gray-300 md:text-base text-sm text-white md:min-w-[7rem] rounded-lg text-center p-2 hover:bg-gray-400 active:scale-95 transition duration-100;
@@ -101,10 +98,6 @@ html {
 Label {
   @apply text-black capitalize font-medium block text-left md:text-lg text-sm;
 }
-
-/* .gray_input_field {
-  @apply outline-none w-full rounded-md bg-lightGray border border-gray-300 p-2.5 focus:border-gray-400 focus:border-2;
-} */
 
 .input_field {
   @apply outline-none w-full rounded-md border bg-gray-100 bg-opacity-30 border-gray-300 p-2.5 focus:border-gray-400 focus:border-2;
@@ -127,7 +120,7 @@ Label {
 }
 
 .otp_Field {
-  @apply rounded-lg border font-bold md:text-base text-sm border-gray-300 md:h-12 md:w-12 h-8 w-8 outline-none text-center;
+  @apply rounded-lg border font-bold text-black md:text-base text-sm border-gray-300 md:h-12 md:w-12 h-8 w-8 outline-none text-center;
 }
 
 .loading {

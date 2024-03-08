@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { persistStore, persistReducer } from "redux-persist";
+import { persistStore, persistReducer, Persistor } from "redux-persist";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import AuthSlice from "./AuthSlice";
 import GetContentSlice from "./GetContentSlice";
@@ -35,16 +35,18 @@ const peristReducers = combineReducers({
 });
 
 export const store = () => {
-  return configureStore({
+  const reduxStore = configureStore({
     reducer: { root: peristReducers },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({ serializableCheck: false }),
     devTools: process.env.NODE_ENV !== "production",
   });
+
+  const persistor: Persistor = persistStore(reduxStore);
+
+  return { reduxStore, persistor };
 };
 
-export const persistor = persistStore(store());
-
 export type AppStore = ReturnType<typeof store>;
-export type RootState = ReturnType<AppStore["getState"]>;
-export type AppDispatch = AppStore["dispatch"];
+export type RootState = ReturnType<AppStore["reduxStore"]["getState"]>;
+export type AppDispatch = AppStore["reduxStore"]["dispatch"];

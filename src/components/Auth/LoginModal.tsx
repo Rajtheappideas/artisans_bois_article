@@ -1,112 +1,113 @@
-'use client'
+"use client";
+import { useGlobalContext } from "@/context/globalContext";
+import { handleGetUserAddress, handleLoginUser } from "@/redux/AuthSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
-// import { useDispatch, useSelector } from "react-redux";
-// import {
-//   handleChangeShowForgotPassword,
-//   handleChangeShowSignin,
-//   handleChangeShowSignup,
-//   handleSuccess,
-// } from "../../redux/globalStates";
-// import { BsEyeSlashFill, BsEyeFill } from "react-icons/bs";
-// import useAbortApiCall from "../../hooks/useAbortApiCall";
-// import { useTranslation } from "react-i18next";
-// import { useForm } from "react-hook-form";
-// import { yupResolver } from "@hookform/resolvers/yup";
-// import * as yup from "yup";
-// import { handleGetUserAddress, handleLoginUser } from "../../redux/AuthSlice";
-// import toast from "react-hot-toast";
-// import { handleGetCart } from "../../redux/CartSlice";
+import useAbortApiCall from "../../hooks/useAbortApiCall";
+import * as yup from "yup";
 
 const LoginModal = () => {
   const [showPassword, setshowPassword] = useState(false);
 
-  // const { showSignin } = useSelector((state) => state.root.globalStates);
-  // const { loading } = useSelector((state) => state.root.auth);
+  const {
+    handleChangeLoginModal,
+    showLoginModal,
+    handleChangeForgotPasswordModal,
+    handleChangeRegisterModal,
+  } = useGlobalContext();
 
-  // const { t } = useTranslation();
+  const { loading } = useAppSelector((state) => state.root.auth);
 
-  // const { AbortControllerRef, abortApiCall } = useAbortApiCall();
+  const { t } = useTranslation();
 
-  // const dispatch = useDispatch();
-  // const signinRef = useRef(null);
+  const { AbortControllerRef, abortApiCall } = useAbortApiCall();
 
-  // const signinSchema = yup.object({
-  //   email: yup.string().email().required(t("email is required")).trim(),
-  //   password: yup.string().required(t("password is required")).trim(),
-  // });
+  const dispatch = useAppDispatch();
+  const signinRef = useRef<HTMLFormElement>(null);
 
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   getValues,
-  //   formState: { errors },
-  // } = useForm({
-  //   shouldFocusError: true,
-  //   resolver: yupResolver(signinSchema),
-  // });
+  const signinSchema = yup.object({
+    email: yup.string().email().required(t("email is required")).trim(),
+    password: yup.string().required(t("password is required")).trim(),
+  });
 
-  // const onSubmit = (data) => {
-  //   const { email, password } = data;
-  //   const response = dispatch(
-  //     handleLoginUser({
-  //       email,
-  //       password,
-  //       signal: AbortControllerRef,
-  //     })
-  //   );
-  //   if (response) {
-  //     response.then((res) => {
-  //       if (res?.payload?.status === "success") {
-  //         toast.success(t("sign in successfully"));
-  //         dispatch(handleGetCart({ token: res?.payload?.token }));
-  //         dispatch(handleGetUserAddress({ token: res?.payload?.token }));
-  //         dispatch(handleSuccess());
-  //         dispatch(handleChangeShowSignin(false));
-  //       }
-  //     });
-  //   }
-  // };
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm({
+    shouldFocusError: true,
+    resolver: yupResolver(signinSchema),
+  });
 
-  // useEffect(() => {
-  //   if (showSignin) {
-  //     window.document.body.style.overflow = "hidden";
-  //   }
-  //   const handleClickOutside = (event) => {
-  //     if (
-  //       signinRef.current &&
-  //       !signinRef.current.contains(event?.target) &&
-  //       showSignin
-  //     ) {
-  //       dispatch(handleChangeShowSignin(false));
-  //       window.document.body.style.overflow = "unset";
-  //       abortApiCall()
-  //     }
-  //   };
-  //   document.addEventListener("click", handleClickOutside, true);
-  //   return () => {
-  //     document.removeEventListener("click", handleClickOutside, true);
-  //   };
-  // }, [handleClickOutside, showSignin]);
+  const onSubmit = async (data: any) => {
+    const { email, password } = data;
+    const response = dispatch(
+      handleLoginUser({
+        email,
+        password,
+      })
+    );
+    if (response) {
+      response
+        .then((res) => {
+          if (res?.payload?.status === "success") {
+            toast.success(t("sign in successfully"));
+            dispatch(handleGetUserAddress({ token: res?.payload?.token }));
+            handleChangeLoginModal(false);
+            window?.location?.reload()
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
 
-  // function handleClickOutside() {
-  //   dispatch(handleChangeShowSignin(false));
-  //   window.document.body.style.overflow = "unset";
-  // }
+  useEffect(() => {
+    if (showLoginModal) {
+      window.document.body.style.overflow = "hidden";
+    }
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        signinRef.current instanceof HTMLFormElement &&
+        !signinRef.current.contains(event.target as Node) &&
+        showLoginModal
+      ) {
+        handleChangeLoginModal(false);
+        window.document.body.style.overflow = "unset";
+        abortApiCall();
+      }
+    };
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [handleClickOutside, showLoginModal, signinRef]);
 
-  // useEffect(() => {
-  //   return () => {
-  //     abortApiCall();
-  //     window.document.body.style.overflow = "unset";
-  //   };
-  // }, []);
+  function handleClickOutside(): void {
+    handleChangeLoginModal(false);
+    window.document.body.style.overflow = "unset";
+  }
+
+  useEffect(() => {
+    return () => {
+      abortApiCall();
+      window.document.body.style.overflow = "unset";
+    };
+  }, []);
 
   return (
-    <div className="fixed z-10 inset-0 bg-black bg-opacity-50">
+    <div className="fixed z-50 inset-0 bg-black bg-opacity-50">
       <form
-        // onSubmit={handleSubmit(onSubmit)}
-        // ref={signinRef}
+        onSubmit={handleSubmit(onSubmit)}
+        ref={signinRef}
         className="fixed z-10 xl:w-1/3 md:w-1/2 w-11/12 h-auto md:p-8 p-2 rounded-lg bg-white left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 space-y-3"
       >
         <div className="w-full flex items-center justify-between">
@@ -117,9 +118,9 @@ const LoginModal = () => {
           <AiOutlineClose
             size={20}
             role="button"
-            // onClick={() => {
-            //   dispatch(handleChangeShowSignin(false));
-            // }}
+            onClick={() => {
+              handleChangeLoginModal(false);
+            }}
           />
         </div>
         <div>
@@ -131,9 +132,9 @@ const LoginModal = () => {
             type="email"
             className="input_field"
             placeholder="hello@gmail.com"
-            // {...register("email")}
+            {...register("email")}
           />
-          {/* <span className="error">{errors?.email?.message}</span> */}
+          <span className="error">{errors?.email?.message}</span>
         </div>
         <div className="relative h-24">
           <label htmlFor="password" className="Label">
@@ -142,7 +143,7 @@ const LoginModal = () => {
           </label>
           <input
             type={showPassword ? "text" : "password"}
-            // {...register("password")}
+            {...register("password")}
             className="input_field"
             placeholder="********"
           />
@@ -159,19 +160,18 @@ const LoginModal = () => {
               />
             )}
           </button>
-          {/* <span className="error">{errors?.password?.message}</span> */}
+          <span className="error">{errors?.password?.message}</span>
         </div>
-        <button type="submit" className="blue_button w-full">
-          {/* {loading ? t("loading").concat("...") : t("login")} */}
-          Login
+        <button type="submit" disabled={loading} className="blue_button w-full">
+          {loading ? t("loading").concat("...") : t("login")}
         </button>
         <p className="text-center font-medium ">
           <span
             className="cursor-pointer"
-            // onClick={() => {
-            //   dispatch(handleChangeShowForgotPassword(true));
-            //   dispatch(handleChangeShowSignin(false));
-            // }}
+            onClick={() => {
+              handleChangeForgotPasswordModal(true);
+              handleChangeLoginModal(false);
+            }}
           >
             {/* {t("Forgot password")}? */}
             Forgot password
@@ -179,12 +179,12 @@ const LoginModal = () => {
         </p>
         <p className="text-center">
           {/* {t("Don't have an account")}?{" "} */}
-          Dont have an account ?
+          Dont have an account ?{" "}
           <span
-            // onClick={() => {
-            //   dispatch(handleChangeShowSignup(true));
-            //   dispatch(handleChangeShowSignin(false));
-            // }}
+            onClick={() => {
+              handleChangeRegisterModal(true);
+              handleChangeLoginModal(false);
+            }}
             className="text-darkBlue font-semibold cursor-pointer"
           >
             {/* {t("Register Now")}! */}

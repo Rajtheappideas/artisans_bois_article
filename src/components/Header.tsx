@@ -6,8 +6,20 @@ import logo from "../../public/static/images/Logo.png";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { handleGetCategories } from "@/redux/GetContentSlice";
-import { usePathname } from "next/navigation";
+import {
+  handleGetArticles,
+  handleGetCategories,
+} from "@/redux/GetContentSlice";
+import { usePathname, useRouter } from "next/navigation";
+import { useGlobalContext } from "@/context/globalContext";
+import LoginModal from "./Auth/LoginModal";
+import SignupModal from "./Auth/SignupModal";
+import SearchModal from "./SearchModal";
+import ForgotPasswordModal from "./Auth/ForgotPasswordModal";
+import ResetPasswordModal from "./Auth/ResetPasswordModal";
+import { handleChangeLogout } from "@/redux/AuthSlice";
+import toast from "react-hot-toast";
+import OTPVerify from "./Auth/OtpVerify";
 
 function Header() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -26,13 +38,35 @@ function Header() {
     (state) => state.root.getcontent
   );
 
+  const { user, loading } = useAppSelector((s) => s.root.auth);
+
+  const {
+    handleChangeLoginModal,
+    handleChangeRegisterModal,
+    showLoginModal,
+    showRegisterModal,
+    showSearchModal,
+    showResetPasswordModal,
+    showForgotPasswordModal,
+    showOtpVerifyModal,
+  } = useGlobalContext();
+
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const pathname = usePathname();
 
+  function handleLogout() {
+    toast.loading("Logout...");
+    setTimeout(() => {
+      toast.remove();
+      dispatch(handleChangeLogout());
+      router.push("/");
+    }, 2000);
+  }
+
   useEffect(() => {
     dispatch(handleGetCategories());
-
     const handleResize = () => {
       if (window.innerWidth >= 1280) {
         setShowSidebar(false);
@@ -57,9 +91,41 @@ function Header() {
 
   return (
     <>
+      {showLoginModal && <LoginModal />}
+      {showRegisterModal && <SignupModal />}
+      {showSearchModal && <SearchModal />}
+      {showForgotPasswordModal && <ForgotPasswordModal />}
+      {showOtpVerifyModal && <OTPVerify />}
+      {showResetPasswordModal && <ResetPasswordModal />}
+
       <div className="w-full  bg-darkBlue sticky top-0 z-20 transition-all duration-300 ease-in-out">
         <div className="container mx-auto flex items-center gap-x-3 p-3 justify-end text-white">
-          <button>Register</button> | <button>Login</button>
+          {user ? (
+            <>
+              <Link href="/my-account">
+                {user?.fname} {user?.lname}
+              </Link>{" "}
+              |{" "}
+              <span
+                role="button"
+                onClick={() => {
+                  handleLogout();
+                }}
+              >
+                Logout
+              </span>
+            </>
+          ) : (
+            <>
+              <button onClick={() => handleChangeRegisterModal(true)}>
+                Register
+              </button>{" "}
+              |{" "}
+              <button onClick={() => handleChangeLoginModal(true)}>
+                Login
+              </button>
+            </>
+          )}
         </div>
       </div>
       {/* desktop menu */}

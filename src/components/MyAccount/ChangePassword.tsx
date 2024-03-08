@@ -1,29 +1,25 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
-import { useDispatch, useSelector } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-// import useAbortApiCall from "../../hooks/useAbortApiCall";
-// import { handleChangePassword, handleLogout } from "../../redux/AuthSlice";
 import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
-// import ValidationSchema from "../../validations/ValidationSchema";
-// import { handleLogoutFromAllTabs } from "../../redux/globalStates";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import ValidationSchema from "@/validations/ValidationSchema";
+import { handleChangePassword } from "@/redux/AuthSlice";
 
 const ChangePassword = () => {
   const [showOldPassword, setShowOldPassword] = useState<Boolean>(false);
   const [showNewPassword, setshowNewPassword] = useState<Boolean>(false);
 
-//   const { loading, token } = useSelector((state) => state.root.auth);
+  const { loading, token } = useAppSelector((state) => state.root.auth);
 
-//   const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { t } = useTranslation();
 
-//   const { AbortControllerRef } = useAbortApiCall();
-
-//   const { changePasswordSchema } = ValidationSchema();
+  const { changePasswordSchema } = ValidationSchema();
 
   const {
     register,
@@ -31,37 +27,36 @@ const ChangePassword = () => {
     formState: { errors },
   } = useForm({
     shouldFocusError: true,
-//     resolver: yupResolver(changePasswordSchema),
+    resolver: yupResolver(changePasswordSchema),
   });
 
-//   const onSubmit = (data) => {
-//     const { oldPassword, newPassword } = data;
-//     const response = dispatch(
-//       handleChangePassword({
-//         oldPassword,
-//         newPassword,
-//         token,
-//         signal: AbortControllerRef,
-//       })
-//     );
-//     if (response) {
-//       response.then((res) => {
-//         if (res?.payload?.status === "success") {
-//           toast.success(t("Password change successfully."), { duration: 4000 });
-//           toast.loading(t("Logout").concat("..."));
-//           setTimeout(() => {
-//             toast.remove();
-//             dispatch(handleLogout());
-//             dispatch(handleLogoutFromAllTabs());
-//           }, 2000);
-//         }
-//       });
-//     }
-//   };
+  const onSubmit = (data: any) => {
+    const { oldPassword, newPassword } = data;
+    const response = dispatch(
+      handleChangePassword({
+        oldPassword,
+        newPassword,
+        token,
+      })
+    );
+    if (response) {
+      response.then((res) => {
+        if (res?.payload?.status === "success") {
+          toast.success(t("Password change successfully."), { duration: 4000 });
+          toast.loading(t("Logout").concat("..."));
+          setTimeout(() => {
+            toast.remove();
+            // dispatch(handleLogout());
+            // dispatch(handleLogoutFromAllTabs());
+          }, 2000);
+        }
+      });
+    }
+  };
 
   return (
     <form
-//       onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit)}
       className="w-full bg-white border border-gray-300 md:p-4 p-2 md:space-y-5 space-y-3"
     >
       <p className="heading">{t("Change Password")}</p>
@@ -79,7 +74,7 @@ const ChangePassword = () => {
         <button
           type="button"
           onClick={() => setShowOldPassword(!showOldPassword)}
-          className="absolute top-1/2 -translate-y-1/3 cursor-pointer right-3 text-gray-600 rounded-full bg-white"
+          className="absolute top-1/2 -translate-y-[10%] cursor-pointer right-3 text-gray-600 rounded-full bg-white"
         >
           {showOldPassword ? (
             <BsEyeFill size={24} />
@@ -88,7 +83,7 @@ const ChangePassword = () => {
           )}
         </button>
         <span role="alert" className="error">
-          {/* {errors?.oldPassword?.message} */}
+          {errors?.oldPassword?.message}
         </span>
       </div>
       {/* new password */}
@@ -105,7 +100,7 @@ const ChangePassword = () => {
         <button
           type="button"
           onClick={() => setshowNewPassword(!showNewPassword)}
-          className="absolute top-1/2 -translate-y-1/3 cursor-pointer right-3 text-gray-600 rounded-full bg-white"
+          className="absolute top-1/2 -translate-y-[20%] cursor-pointer right-3 text-gray-600 rounded-full bg-white"
         >
           {showOldPassword ? (
             <BsEyeFill size={24} />
@@ -114,7 +109,7 @@ const ChangePassword = () => {
           )}
         </button>
         <span role="alert" className="error">
-          {/* {errors?.newPassword?.message} */}
+          {errors?.newPassword?.message}
         </span>
       </div>
       {/* confirm password */}
@@ -129,15 +124,15 @@ const ChangePassword = () => {
           {...register("confirmPassword")}
         />
         <span role="alert" className="error">
-          {/* {errors?.confirmPassword?.message} */}
+          {errors?.confirmPassword?.message}
         </span>
       </div>
       {/* btn */}
-      <button 
-//       disabled={loading}
-       className="md:w-60 w-1/2 blue_button md:h-12">
-        {/* {loading ? t("Saving").concat("...") : t("Save")} */}
-        Save
+      <button
+              disabled={loading}
+        className="md:w-60 w-1/2 blue_button md:h-12"
+      >
+        {loading ? t("Saving").concat("...") : t("Save")}
       </button>
     </form>
   );

@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import image1 from "../../../public/static/images/Image3.png";
 import SingalCategory from "@/components/Home/SingalCategory";
 import { useAppSelector } from "@/redux/hooks";
 

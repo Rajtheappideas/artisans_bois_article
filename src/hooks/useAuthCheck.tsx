@@ -10,8 +10,8 @@ const useAuthCheck = () => {
 
   function checkAuth() {
     if (!user) {
-//       toast.error("Please login to access this page.");
-//       return router.push("/");
+      toast.error("Please login to access this page.");
+      return router.push("/");
     }
   }
   return { checkAuth };
