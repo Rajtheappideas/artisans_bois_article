@@ -119,9 +119,6 @@ const ValidationSchema = (required?: boolean, required2?: boolean) => {
     shippingCompanyName: yup
       .string()
       .max(200, t("maximum character limit reached")),
-    billingCompanyName: yup
-      .string()
-      .max(200, t("maximum character limit reached")),
     billingzipCode: yup
       .string()
       .matches(/^(?:[A-Z0-9]+([- ]?[A-Z0-9]+)*)?$/, t("enter valid code"))
