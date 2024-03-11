@@ -16,7 +16,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import ValidationSchema from "@/validations/ValidationSchema";
 import useAbortApiCall from "@/hooks/useAbortApiCall";
 import { handleEditProfile } from "@/redux/AuthSlice";
-import { CountryType } from "@/types";
+import { CountryType, StateType } from "@/types";
 
 interface EditProfileProps {
   setShowEditProfile: (value: Boolean) => void;
@@ -24,9 +24,9 @@ interface EditProfileProps {
 
 const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
   const [countries, setCountries] = useState<CountryType[]>([]);
-  const [states, setStates] = useState<[]>([]);
-  const [selectedCountry, setSelectedCountry] = useState<String>("");
-  const [showStateField, setShowStateField] = useState<Boolean>(true);
+  const [states, setStates] = useState<StateType[]>([]);
+  const [selectedCountry, setSelectedCountry] = useState<string>("");
+  const [showStateField, setShowStateField] = useState<boolean>(true);
 
   const { user, token, editProfileLoading, addresses } = useAppSelector(
     (state) => state.root.auth
@@ -112,6 +112,7 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
         company,
         shippingAddress,
         token,
+        email: user?.email as string,
       })
     );
     if (response) {
@@ -131,12 +132,12 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
   }, []);
 
   useEffect(() => {
-    let findCountry = {};
+    let findCountry: CountryType | undefined;
     if (selectedCountry === "") {
       findCountry = Country.getAllCountries().find(
         (c) => c.name === addresses?.shippingAddress?.country
       );
-      setSelectedCountry(findCountry?.name);
+      setSelectedCountry(findCountry?.name as string);
     }
     findCountry = Country.getAllCountries().find(
       (c) => c.name === getValues("country")
@@ -152,7 +153,7 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
         );
       }
       const findStateInStates = states.find((s) =>
-        s.name.includes(getValues().province)
+        s.name.includes(getValues().province as string)
       );
       if (!findStateInStates) {
         setValue("province", states[0]?.name);
@@ -163,6 +164,29 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
       setStates([]);
     }
   }, [watch("country"), watch("province")]);
+
+  useEffect(() => {
+    let findCountry: CountryType | undefined;
+    findCountry = Country.getAllCountries().find(
+      (c) => c.name === getValues("country")
+    );
+    if (getValues("country") === "") setShowStateField(true);
+    else if (
+      State.getStatesOfCountry(findCountry?.isoCode).length > 0 &&
+      getValues("country") !== ""
+    ) {
+      resetField("province", {
+        keepDirty: false,
+        keepError: false,
+        defaultValue: "",
+        keepTouched: false,
+      });
+      setStates(State.getStatesOfCountry(findCountry?.isoCode));
+      !showStateField && setShowStateField(true);
+    } else {
+      setShowStateField(false);
+    }
+  }, [watch("country")]);
 
   return (
     <form
@@ -263,7 +287,7 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
           name="mobile"
           control={control}
           rules={{
-            validate: (value) => isValidPhoneNumber(value),
+            validate: (value) => isValidPhoneNumber(value as string),
           }}
           render={({ field: { onChange, value } }) => (
             <PhoneInput
@@ -405,7 +429,7 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
             type="text"
             placeholder="city"
             className="w-full input_field"
-                {...register("city")}
+            {...register("city")}
           />
           <span className="error">{errors?.city?.message}</span>
         </div>
@@ -419,7 +443,7 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
           type="number"
           placeholder="Type here..."
           className="w-full input_field"
-            {...register("zipCode")}
+          {...register("zipCode")}
         />
         <span className="error">{errors?.zipCode?.message}</span>
       </div>
@@ -427,7 +451,7 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
       <div className="flex items-center gap-3">
         <button
           className="blue_button md:h-12 md:w-40 w-1/2"
-            disabled={editProfileLoading}
+          disabled={editProfileLoading}
           type="submit"
         >
           {editProfileLoading ? t("Saving").concat("...") : t("Save")}
@@ -435,7 +459,7 @@ const EditProfile = ({ setShowEditProfile }: EditProfileProps) => {
         <button
           type="button"
           onClick={() => setShowEditProfile(false)}
-            disabled={editProfileLoading}
+          disabled={editProfileLoading}
           className="light_gray_button md:h-12 md:w-40 w-1/2"
         >
           {t("Cancel")}

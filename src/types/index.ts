@@ -52,11 +52,11 @@ export interface UserType {
   email: string;
   phone: number | string;
   civility: string;
-  password: string;
+  password?: string | null;
   mobile: number | string;
   company: string;
   shippingAddress: Address;
-  token?: string;
+  token?: string | null;
 }
 
 export interface LoginType {
@@ -97,7 +97,7 @@ export interface CountryType {
 
 export interface StateType {
   countryCode: string;
-  isoCode: string ;
+  isoCode: string;
   latitude?: string | undefined | null;
   longitude?: string | undefined | null;
   name: string;
