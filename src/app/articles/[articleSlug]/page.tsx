@@ -48,24 +48,24 @@ const ArticleSlug = ({
 
   const { checkAuth } = useAuthCheck();
 
-  function handleFilterArticles(): void {
-    if (articles.length === 0 || articleLoading) return;
-    const topPosts: SingleArticle[] = articles
-      .filter((article) => article.category === category && article._id !== id)
-      .sort(
-        (a, b) =>
-          new Date(a.createdAt).getDate() - new Date(b.createdAt).getDate()
-      )
-      .slice(0, 6);
-    setTopPosts(topPosts);
-    const relatedArticles: SingleArticle[] = articles.filter(
-      (article) => article.category === category && article._id !== id
-    );
-    setRelatedArticles(relatedArticles);
-  }
+//   function handleFilterArticles(): void {
+//     if (articles.length === 0 || articleLoading) return;
+//     const topPosts: SingleArticle[] = articles
+//       .filter((article) => article.category === category && article._id !== id)
+//       .sort(
+//         (a, b) =>
+//           new Date(a.createdAt).getDate() - new Date(b.createdAt).getDate()
+//       )
+//       .slice(0, 6);
+//     setTopPosts(topPosts);
+//     const relatedArticles: SingleArticle[] = articles.filter(
+//       (article) => article.category === category && article._id !== id
+//     );
+//     setRelatedArticles(relatedArticles);
+//   }
 
   useEffect(() => {
-    handleFilterArticles();
+//     handleFilterArticles();
   }, [articleLoading, articles]);
 
   useEffect(() => {
