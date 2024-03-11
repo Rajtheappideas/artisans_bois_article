@@ -222,7 +222,10 @@ const ValidationSchema = (required?: boolean, required2?: boolean) => {
     confirmPassword: yup
       .string()
       .required(t("confirm password is required"))
-      .oneOf([yup.ref("password"), null], t("password not match")),
+      .oneOf(
+        [yup.ref("password"), null] as (string | yup.Reference)[],
+        t("password not match")
+      ),
   });
 
   const changePasswordSchema = yup.object({
@@ -239,7 +242,10 @@ const ValidationSchema = (required?: boolean, required2?: boolean) => {
     confirmPassword: yup
       .string()
       .required(t("confirm password is required"))
-      .oneOf([yup.ref("newPassword"), null], t("password not match")),
+      .oneOf(
+        [yup.ref("newPassword"), null] as (string | yup.Reference)[],
+        t("password not match")
+      ),
   });
 
   const contactUsSchema = yup.object().shape({
