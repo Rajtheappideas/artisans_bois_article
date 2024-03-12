@@ -2,6 +2,7 @@ import { GetUrl } from "@/BaseUrl";
 import {
   Articles,
   Categories,
+  HomeContent,
   SingelArticleResponse,
   SingleArticle,
   SingleCategory,
@@ -14,6 +15,21 @@ export const handleGetArticles = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await GetUrl<Articles>("article");
+      return data;
+    } catch (error: any) {
+      if (error?.response?.data?.message) {
+        toast.error(error?.response?.data?.message);
+      }
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
+export const handleGetHomePageConent = createAsyncThunk(
+  "getcontent/handleGetHomePageConent",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await GetUrl<HomeContent>("");
       return data;
     } catch (error: any) {
       if (error?.response?.data?.message) {
@@ -59,9 +75,11 @@ interface GetContentState {
   articles: SingleArticle[];
   singleArticle: SingleArticle | null;
   homePageLoading: boolean;
-  homePageContent: object;
+  homePageContent: HomeContent | null;
   categoryLoading: boolean;
   categories: SingleCategory[];
+  searchedArticles: SingleArticle[];
+  searchTerm: string;
   error: null | object;
 }
 
@@ -70,17 +88,26 @@ const initialState: GetContentState = {
   articles: [],
   singleArticle: null,
   homePageLoading: false,
-  homePageContent: [],
+  homePageContent: null,
   categoryLoading: false,
   categories: [],
+  searchedArticles: [],
+  searchTerm: "",
   error: null,
 };
+
 const GetContentSlice = createSlice({
   name: "getcontent",
   initialState,
   reducers: {
     handleChangeSingleArticle: (state, { payload }) => {
       state.singleArticle = payload;
+    },
+    handleChangeSearchArticles: (state, { payload }) => {
+      state.searchedArticles = payload;
+    },
+    handleChangeSearchTerm: (state, { payload }: PayloadAction<string>) => {
+      state.searchTerm = payload;
     },
   },
   extraReducers: (builder) => {
@@ -103,6 +130,28 @@ const GetContentSlice = createSlice({
           state.articleLoading = false;
           state.error = payload;
           state.articles = [];
+        }
+      );
+
+    // get home page content
+    builder
+      .addCase(handleGetHomePageConent.pending, (state, action) => {
+        state.homePageLoading = true;
+      })
+      .addCase(
+        handleGetHomePageConent.fulfilled,
+        (state, { payload }: PayloadAction<HomeContent>) => {
+          state.homePageLoading = false;
+          state.homePageContent = payload;
+          state.error = null;
+        }
+      )
+      .addCase(
+        handleGetHomePageConent.rejected,
+        (state, { payload }: PayloadAction<any>) => {
+          state.homePageLoading = false;
+          state.error = payload;
+          state.homePageContent = null;
         }
       );
 
@@ -155,6 +204,10 @@ const GetContentSlice = createSlice({
   },
 });
 
-export const { handleChangeSingleArticle } = GetContentSlice.actions;
+export const {
+  handleChangeSingleArticle,
+  handleChangeSearchTerm,
+  handleChangeSearchArticles,
+} = GetContentSlice.actions;
 
 export default GetContentSlice.reducer;

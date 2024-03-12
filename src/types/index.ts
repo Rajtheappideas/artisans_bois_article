@@ -114,6 +114,42 @@ export interface ChangePassword {
   token: string | null;
 }
 
+// ------=-=-=-=-=-=-=-==-=--------=-=-=-=-=-=-=-=-=-=home page content----------------------------
+export interface HomeContent {
+  content: {
+    heroSection: HeroSection[] | [];
+    otherSections: OtherSection[] | [];
+    website: string;
+  };
+  categories: HomeContentCategory[] | [];
+}
+
+export interface HeroSection {
+  type: string;
+  content: {
+    title: string;
+    content: string;
+    _id: string;
+    slug: string;
+    image: string;
+    url?: string;
+  };
+}
+export interface OtherSection {
+  content: string;
+  _id: string;
+  image: string;
+  url: string;
+}
+
+export interface HomeContentCategory {
+  category: {
+    name: string;
+    _id: string;
+  };
+  articles: SingleArticle[];
+}
+
 // -----------------------------------------api response -----------------------------
 
 export interface SingelArticleResponse {

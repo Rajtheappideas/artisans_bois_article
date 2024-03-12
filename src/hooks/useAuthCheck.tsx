@@ -1,4 +1,5 @@
 "use client";
+import { useGlobalContext } from "@/context/globalContext";
 import { useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -8,10 +9,14 @@ const useAuthCheck = () => {
 
   const router = useRouter();
 
+  const { handleChangeLoginModal } = useGlobalContext();
+
   function checkAuth() {
     if (!user) {
       toast.error("Please login to access this page.");
-      return router.push("/");
+      router.push("/");
+      handleChangeLoginModal(true);
+      return;
     }
   }
   return { checkAuth };

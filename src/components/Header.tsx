@@ -1,13 +1,13 @@
 "use client";
 import Link from "next/link";
-import { AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineDown, AiOutlineSearch } from "react-icons/ai";
 import { RiMenu3Line } from "react-icons/ri";
 import logo from "../../public/static/images/Logo.png";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
-  handleGetArticles,
+  handleChangeSearchTerm,
   handleGetCategories,
 } from "@/redux/GetContentSlice";
 import { usePathname, useRouter } from "next/navigation";
@@ -23,7 +23,7 @@ import OTPVerify from "./Auth/OtpVerify";
 
 function Header() {
   const [showSidebar, setShowSidebar] = useState(false);
-  const [activeCategory, setActiveCategory] = useState("test123");
+  const [activeCategory, setActiveCategory] = useState("");
   const [windowSizes, setWindowSizes] = useState(() => {
     if (typeof window === "undefined") {
       return { width: 0, height: 0 };
@@ -43,6 +43,7 @@ function Header() {
   const {
     handleChangeLoginModal,
     handleChangeRegisterModal,
+    handleChangeSearchModal,
     showLoginModal,
     showRegisterModal,
     showSearchModal,
@@ -63,6 +64,11 @@ function Header() {
       dispatch(handleChangeLogout());
       router.push("/");
     }, 2000);
+  }
+
+  function handleClickOnSearchButton() {
+    dispatch(handleChangeSearchTerm(""));
+    handleChangeSearchModal(true);
   }
 
   useEffect(() => {
@@ -153,11 +159,45 @@ function Header() {
                     pathname.includes("category")
                       ? "bg-white text-blackText p-1 rounded-lg"
                       : ""
+                  } ${
+                    showOnNavbar ? "block" : "hidden"
                   } capitalize transition-all duration-300 ease-in-out`}
                 >
                   {name}
                 </Link>
               ))
+            )}
+            {categories.some((category) => !category.showOnNavbar) && (
+              <div className="relative group cursor-pointer ">
+                <p>
+                  Other Categories{" "}
+                  <AiOutlineDown className="h-4 w-4 inline-block" />
+                </p>
+                <ul className=" top-7 left-0 transition-all duration-300 ease-in-out bg-white rounded-lg border-black h-auto p-1 w-full absolute group-hover:scale-100 scale-0 origin-top">
+                  {categories.map(({ name, _id, showOnNavbar }) => (
+                    <Link
+                      key={_id}
+                      onClick={() => setActiveCategory(name)}
+                      href={`/category/${name}`}
+                      className={` ${
+                        activeCategory === name &&
+                        pathname.includes(activeCategory) &&
+                        pathname.includes("category")
+                          ? "bg-white text-blackText p-1 rounded-lg"
+                          : ""
+                      } capitalize transition-all duration-300 ease-in-out`}
+                    >
+                      <li
+                        className={`text-black ${
+                          showOnNavbar ? "hidden" : "block"
+                        }  transition-all duration-100 ease-in-out rounded-lg hover:bg-blue/20 p-1`}
+                      >
+                        {name}
+                      </li>
+                    </Link>
+                  ))}
+                </ul>
+              </div>
             )}
           </div>
           <div className="flex items-center md:gap-3 gap-2">
@@ -167,6 +207,9 @@ function Header() {
             <AiOutlineSearch
               role="button"
               className="md:h-10 h-5 md:w-10 w-5 text-white"
+              onClick={() => {
+                handleClickOnSearchButton();
+              }}
             />
             {/* sidebar button */}
             <RiMenu3Line

@@ -34,10 +34,10 @@ const SingalCategory = ({
             loading="lazy"
           />
         </div>
-        <p className="lg:text-lg font-semibold w-full truncate">{name}</p>
+        <p className="lg:text-lg font-semibold w-full truncate capitalize">{name}</p>
         <p className="line-clamp-2 w-full text-blackText">{description}</p>
         {creator && (
-          <p className="text-blackText text-sm">
+          <p className="text-blackText text-sm capitalize">
             {creator} | {date}
           </p>
         )}
