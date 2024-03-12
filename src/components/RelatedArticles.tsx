@@ -75,7 +75,7 @@ const RelatedArticles = ({ articles }: RelatedArticlesProps) => {
         }}
       >
         {articles.map(
-          ({ _id, category, title, content, createdAt, image, slug }) => (
+          ({ _id, category, title, content, createdAt, image, slug, paid }) => (
             <SwiperSlide key={_id} className="w-full py-2 pl-2 overflow-hidden">
               <SingalPost
                 from="articles"
@@ -85,6 +85,7 @@ const RelatedArticles = ({ articles }: RelatedArticlesProps) => {
                 image={image}
                 title={title}
                 slug={slug}
+                paid={paid}
               />
             </SwiperSlide>
           )

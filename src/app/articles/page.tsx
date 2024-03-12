@@ -30,6 +30,7 @@ const Articles = () => {
               author,
               category,
               slug,
+              paid,
             }) => (
               <SingalPost
                 from="articles"
@@ -40,6 +41,7 @@ const Articles = () => {
                 date={new Date(createdAt)}
                 image={image}
                 slug={slug}
+                paid={paid}
                 key={_id}
               />
             )

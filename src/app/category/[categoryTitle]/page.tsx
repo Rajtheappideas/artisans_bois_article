@@ -55,7 +55,7 @@ const CategoryByTitle = ({
               createdAt,
               author,
               category,
-              slug,
+              slug,paid
             }) => (
               <SingalPost
                 from="single_category"
@@ -66,6 +66,7 @@ const CategoryByTitle = ({
                 date={new Date(createdAt)}
                 image={image}
                 slug={slug}
+                paid={paid}
                 key={_id}
               />
             )
