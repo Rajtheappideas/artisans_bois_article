@@ -38,7 +38,7 @@ export interface AuthState {
   token: null | string;
   verifyToken: null | string;
   email: null | string;
-  addresses: null | {
+  addresses: {
     billingAddress: BillingAddress;
     shippingAddress: ShippingAddress;
   };
@@ -134,6 +134,7 @@ export interface HeroSection {
     image: string;
     url?: string;
   };
+  category: SingleCategory;
 }
 export interface OtherSection {
   content: string;

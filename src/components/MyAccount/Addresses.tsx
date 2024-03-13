@@ -8,13 +8,13 @@ import EditDeliveryAddress from "./EditDeliveryAddress";
 import { useAppSelector } from "@/redux/hooks";
 import { Address } from "@/types";
 
-const Address = () => {
+const Address = ({ loading }: { loading: boolean }) => {
   const [activeAddress, setActiveAddress] = useState<string>("");
   const [activeEditAddress, setActiveEditAddress] = useState<string>("");
 
   const { t } = useTranslation();
 
-  const { addresses, addressLoading ,loading} = useAppSelector((s) => s.root.auth);
+  const { addresses } = useAppSelector((s) => s.root.auth);
 
   return (
     <>
@@ -39,6 +39,7 @@ const Address = () => {
             <div className="w-full grid md:grid-cols-2 place-items-start items-start gap-4">
               {/* billing address */}
               {addresses !== null &&
+              addresses.billingAddress &&
               Object.values(addresses?.billingAddress as Address).length > 0 ? (
                 <div className="space-y-2 w-full">
                   <p className="heading">{t("Billing address")}</p>
@@ -92,6 +93,7 @@ const Address = () => {
 
               {/* delivery address */}
               {addresses !== null &&
+              addresses.shippingAddress &&
               Object.values(addresses?.shippingAddress as Address).length >
                 0 ? (
                 <div className="space-y-2 w-full">

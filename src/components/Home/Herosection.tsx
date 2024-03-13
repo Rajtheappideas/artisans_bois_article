@@ -1,5 +1,6 @@
+"use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { useAppSelector } from "@/redux/hooks";
 import BaseUrl from "@/BaseUrl";
@@ -54,7 +55,8 @@ const Herosection = () => {
                     : homePageContent?.content.heroSection[0]?.content.content}
                 </p>
                 <p className="font-light text-sm">
-                  CARPENTRY | OCTOBER 16, 2023
+                  {homePageContent?.content.heroSection[0]?.category.name} |
+                  {/* {homePageContent?.content.heroSection[0]?.category.} */}
                 </p>
               </div>
               <p className="bg-black/20 w-full bottom-0 transition-all duration-300 ease-in-out 2xl:group-hover:h-1/4 group-hover:h-1/5 h-0 left-0 z-0 absolute"></p>
@@ -108,7 +110,8 @@ const Herosection = () => {
                               .content}
                       </p>
                       <p className="font-light lg:text-sm text-xs text-wrap">
-                        CARPENTRY | OCTOBER 16, 2023
+                        {homePageContent?.content.heroSection[1]?.category.name}{" "}
+                        | OCTOBER 16, 2023
                       </p>
                     </div>
                     <p className="bg-black/20 w-full bottom-0 transition-all duration-300 ease-in-out 2xl:group-hover:h-1/4 group-hover:h-1/5 h-0 left-0 z-0 absolute"></p>
@@ -151,7 +154,8 @@ const Herosection = () => {
                         )}
                       </p>
                       <p className="font-light lg:text-sm text-xs text-wrap">
-                        CARPENTRY | OCTOBER 16, 2023
+                        {homePageContent?.content.heroSection[2]?.category.name}{" "}
+                        | OCTOBER 16, 2023
                       </p>
                     </div>
                   </div>
@@ -193,7 +197,8 @@ const Herosection = () => {
                         )}
                       </p>
                       <p className="font-light lg:text-sm text-xs text-wrap">
-                        CARPENTRY | OCTOBER 16, 2023
+                        {homePageContent?.content.heroSection[3]?.category.name}{" "}
+                        | OCTOBER 16, 2023
                       </p>
                     </div>
                   </div>

@@ -1,5 +1,4 @@
-import { Addresses, BillingAddress } from "./../types/index";
-import { GetUrl, PostUrl } from "@/BaseUrl";
+import { PostUrl } from "@/BaseUrl";
 import {
   Address,
   AuthState,
@@ -211,24 +210,6 @@ export const handleChangePassword = createAsyncThunk(
   }
 );
 
-export const handleGetUserAddress = createAsyncThunk(
-  "auth/handleGetUserAddress",
-  async ({ token }: { token: string }, { rejectWithValue }) => {
-    try {
-      const { data } = await axios(
-        "https://boisnewsmedia.onrender.com/api/user/address",
-        { headers: { Authorization: token } }
-      );
-      return data;
-    } catch (error: any) {
-      if (error?.response?.message?.data) {
-        toast.error(error?.response?.data?.message);
-      }
-      return rejectWithValue(error?.response?.data);
-    }
-  }
-);
-
 export const handleChangeUserAddress = createAsyncThunk(
   "auth/handleChangeUserAddress",
   async (
@@ -302,6 +283,9 @@ const AuthSlice = createSlice({
     },
     handleStoreUserEmail: (state, { payload }) => {
       state.email = payload;
+    },
+    handleChangeAddress: (state, { payload }) => {
+      state.addresses = payload;
     },
   },
   extraReducers: (builder) => {
@@ -450,33 +434,6 @@ const AuthSlice = createSlice({
       state.token = null;
     });
 
-    // get adddress
-    builder
-      .addCase(handleGetUserAddress.pending, (state, { payload }) => {
-        state.addressLoading = true;
-      })
-      .addCase(
-        handleGetUserAddress.fulfilled,
-        (
-          state,
-          {
-            payload: { billingAddress, shippingAddress },
-          }: PayloadAction<Addresses>
-        ) => {
-          state.addressLoading = false;
-          if (state.addresses) {
-            state.addresses.billingAddress = billingAddress ?? null;
-            state.addresses.shippingAddress = shippingAddress ?? null;
-          }
-          state.error = null;
-        }
-      )
-      .addCase(handleGetUserAddress.rejected, (state, { payload }) => {
-        state.addressLoading = false;
-        state.error = payload ?? null;
-        state.addresses = null;
-      });
-
     // change address
     builder.addCase(handleChangeUserAddress.pending, (state, {}) => {
       state.addressLoading = true;
@@ -501,7 +458,11 @@ const AuthSlice = createSlice({
   },
 });
 
-export const { handleChangeLoading, handleChangeLogout, handleStoreUserEmail } =
-  AuthSlice.actions;
+export const {
+  handleChangeLoading,
+  handleChangeLogout,
+  handleStoreUserEmail,
+  handleChangeAddress,
+} = AuthSlice.actions;
 
 export default AuthSlice.reducer;

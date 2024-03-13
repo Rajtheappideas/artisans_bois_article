@@ -1,3 +1,4 @@
+"use client";
 import React, { FormEvent, useRef } from "react";
 import { useState } from "react";
 import { toast } from "react-hot-toast";

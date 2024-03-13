@@ -173,7 +173,7 @@ function Header() {
                   Other Categories{" "}
                   <AiOutlineDown className="h-4 w-4 inline-block" />
                 </p>
-                <ul className=" top-7 left-0 transition-all duration-300 ease-in-out bg-white rounded-lg border-black h-auto p-1 w-full absolute group-hover:scale-100 scale-0 origin-top">
+                <ul className="shadow-xl top-7 left-0 transition-all duration-300 ease-in-out bg-white rounded-lg border-black h-auto p-1 w-full absolute group-hover:scale-100 scale-0 origin-top">
                   {categories.map(({ name, _id, showOnNavbar }) => (
                     <Link
                       key={_id}

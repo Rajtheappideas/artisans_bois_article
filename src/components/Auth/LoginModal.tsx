@@ -1,6 +1,6 @@
 "use client";
 import { useGlobalContext } from "@/context/globalContext";
-import { handleGetUserAddress, handleLoginUser } from "@/redux/AuthSlice";
+import { handleLoginUser } from "@/redux/AuthSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect, useRef, useState } from "react";
@@ -59,9 +59,8 @@ const LoginModal = () => {
         .then((res) => {
           if (res?.payload?.status === "success") {
             toast.success(t("sign in successfully"));
-            dispatch(handleGetUserAddress({ token: res?.payload?.token }));
             handleChangeLoginModal(false);
-            window?.location?.reload()
+            window?.location?.reload();
           }
         })
         .catch((err) => {

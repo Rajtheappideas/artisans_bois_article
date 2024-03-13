@@ -5,10 +5,11 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import StoreProvider from "./StoreProvider";
 import { Toaster } from "react-hot-toast";
-import {
-  GlobalContextProvider,
-  useGlobalContext,
-} from "@/context/globalContext";
+import { GlobalContextProvider } from "@/context/globalContext";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+import Error from "./global-error";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,13 +27,17 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Toaster />
-        <StoreProvider>
-          <GlobalContextProvider>
-            <Header />
-            <main>{children}</main>
-            <Footer />
-          </GlobalContextProvider>
-        </StoreProvider>
+        <ErrorBoundary errorComponent={Error}>
+          <Suspense fallback={<Loading />}>
+            <StoreProvider>
+              <GlobalContextProvider>
+                <Header />
+                <main>{children}</main>
+                <Footer />
+              </GlobalContextProvider>
+            </StoreProvider>
+          </Suspense>
+        </ErrorBoundary>
       </body>
     </html>
   );
