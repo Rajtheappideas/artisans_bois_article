@@ -1,7 +1,11 @@
 import * as yup from "yup";
 import { useTranslation } from "react-i18next";
 
-const ValidationSchema = (required?: boolean, required2?: boolean) => {
+const ValidationSchema = (
+  required?: boolean,
+  required2?: boolean,
+  showShippingAddressFields?: boolean
+) => {
   const { t } = useTranslation();
   const signupSchema = yup.object({
     fname: yup
@@ -72,17 +76,19 @@ const ValidationSchema = (required?: boolean, required2?: boolean) => {
         /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/gi,
         t("only contain latin letters")
       ),
-    shippingFname: yup
-      .string()
-      .required(t("firstName is required"))
-      .trim()
-      .max(60, t("max character limit reached"))
-      .min(2, t("minimum two character required"))
-      .typeError(t("only characters allowed"))
-      .matches(
-        /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/gi,
-        t("only contain latin letters")
-      ),
+    shippingFname: !showShippingAddressFields
+      ? yup.string()
+      : yup
+          .string()
+          .required(t("firstName is required"))
+          .trim()
+          .max(60, t("max character limit reached"))
+          .min(2, t("minimum two character required"))
+          .typeError(t("only characters allowed"))
+          .matches(
+            /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/gi,
+            t("only contain latin letters")
+          ),
     billingLname: yup
       .string()
       .required(t("lastName is required"))
@@ -94,47 +100,59 @@ const ValidationSchema = (required?: boolean, required2?: boolean) => {
         /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/gi,
         t("only contain latin letters")
       ),
-    shippingLname: yup
-      .string()
-      .required(t("lastName is required"))
-      .trim()
-      .max(60, t(t("max character limit reached")))
-      .min(2, t("minimum two character required"))
-      .typeError(t("only characters allowed"))
-      .matches(
-        /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/gi,
-        t("only contain latin letters")
-      ),
+    shippingLname: !showShippingAddressFields
+      ? yup.string()
+      : yup
+          .string()
+          .required(t("lastName is required"))
+          .trim()
+          .max(60, t(t("max character limit reached")))
+          .min(2, t("minimum two character required"))
+          .typeError(t("only characters allowed"))
+          .matches(
+            /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/gi,
+            t("only contain latin letters")
+          ),
     billingAddress1: yup
       .string()
       .max(200, t("maximum character limit reached"))
       .required(t("address is required")),
-    shippingAddress1: yup
-      .string()
-      .max(200, t("maximum character limit reached"))
-      .required(t("address is required")),
+    shippingAddress1: !showShippingAddressFields
+      ? yup.string()
+      : yup
+          .string()
+          .max(200, t("maximum character limit reached"))
+          .required(t("address is required")),
     billingCompanyName: yup
       .string()
       .max(200, t("maximum character limit reached")),
-    shippingCompanyName: yup
-      .string()
-      .max(200, t("maximum character limit reached")),
+    shippingCompanyName: !showShippingAddressFields
+      ? yup.string()
+      : yup.string().max(200, t("maximum character limit reached")),
     billingzipCode: yup
       .string()
       .matches(/^(?:[A-Z0-9]+([- ]?[A-Z0-9]+)*)?$/, t("enter valid code"))
       .required(t("zipcode is required")),
-    shippingzipCode: yup
-      .string()
-      .matches(/^(?:[A-Z0-9]+([- ]?[A-Z0-9]+)*)?$/, t("enter valid code"))
-      .required(t("zipcode is required")),
-    shippingcountry: yup.string().required(t("country is required")),
+    shippingzipCode: !showShippingAddressFields
+      ? yup.string()
+      : yup
+          .string()
+          .matches(/^(?:[A-Z0-9]+([- ]?[A-Z0-9]+)*)?$/, t("enter valid code"))
+          .required(t("zipcode is required")),
+    shippingcountry: !showShippingAddressFields
+      ? yup.string()
+      : yup.string().required(t("country is required")),
     billingcountry: yup.string().required(t("country is required")),
-    shippingcity: yup.string().required(t("country is required")),
+    shippingcity: !showShippingAddressFields
+      ? yup.string()
+      : yup.string().required(t("country is required")),
     billingcity: yup.string().required(t("country is required")),
     billingProvince: required
       ? yup.string()
       : yup.string().required(t("province is required")),
-    shippingProvince: required2
+    shippingProvince: !showShippingAddressFields
+      ? yup.string()
+      : required2
       ? yup.string()
       : yup.string().required(t("province is required")),
     phone: yup.string().required("phone is required"),

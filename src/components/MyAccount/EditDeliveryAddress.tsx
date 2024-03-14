@@ -214,7 +214,7 @@ const EditDeliveryAddress = ({
               <option
                 selected={
                   country.name.toLocaleLowerCase() ===
-                  addresses?.billingAddress?.country.toLocaleLowerCase()
+                  addresses?.shippingAddress?.country.toLocaleLowerCase()
                 }
                 value={country?.name}
                 key={i}
@@ -238,7 +238,7 @@ const EditDeliveryAddress = ({
             {t("state")}
           </label>
           <select
-            defaultValue={addresses?.billingAddress?.province ?? ""}
+            defaultValue={addresses?.shippingAddress?.province ?? ""}
             {...register("province")}
             className="input_field"
           >
@@ -247,7 +247,7 @@ const EditDeliveryAddress = ({
                 <option
                   selected={
                     state.name.toLocaleLowerCase() ===
-                    addresses?.billingAddress?.province.toLocaleLowerCase()
+                    addresses?.shippingAddress?.province.toLocaleLowerCase()
                   }
                   value={state?.name}
                   key={i}

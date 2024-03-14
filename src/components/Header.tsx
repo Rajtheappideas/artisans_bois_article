@@ -201,9 +201,30 @@ function Header() {
             )}
           </div>
           <div className="flex items-center md:gap-3 gap-2">
-            <button className="uppercase md:p-3 p-1 border rounded-lg">
-              subscribe
-            </button>
+            {user &&
+              (user?.remainingIssues === 0 || !user?.remainingIssues) && (
+                <button
+                  onClick={() => router.push("/checkout")}
+                  className="uppercase md:p-3 p-1 border rounded-lg hover:bg-gray-200 hover:text-black transition-all duration-300 ease-in-out"
+                >
+                  subscribe
+                </button>
+              )}
+            {!user && (
+              <button
+                onClick={() => handleChangeLoginModal(true)}
+                className="uppercase md:p-3 p-1 border rounded-lg hover:bg-gray-200 hover:text-black transition-all duration-300 ease-in-out"
+              >
+                subscribe
+              </button>
+            )}
+            {user &&
+              user?.remainingIssues &&
+              (user?.remainingIssues >= 0 || user?.remainingIssues) && (
+                <span className="uppercase md:p-3 p-1 border rounded-lg hover:bg-gray-200 hover:text-black transition-all duration-300 ease-in-out">
+                  Active Subscription
+                </span>
+              )}
             <AiOutlineSearch
               role="button"
               className="md:h-10 h-5 md:w-10 w-5 text-white"

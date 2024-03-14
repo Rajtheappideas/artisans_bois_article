@@ -57,6 +57,7 @@ export interface UserType {
   company: string;
   shippingAddress: Address;
   token?: string | null;
+  remainingIssues?: number;
 }
 
 export interface LoginType {
@@ -158,4 +159,55 @@ export interface SingelArticleResponse {
   success: string;
   message: string;
   code: number;
+}
+
+// ----------------------------------check out ---------------------------
+export interface CheckoutInitialState {
+  checkoutLoading: boolean;
+  isPromoCodeApplied: boolean;
+  promoCode: string | null;
+  promoCodeLoading: boolean;
+  promoCodeDiscount: number;
+  eec_switzerland_overseas_territories: string[];
+  total: number;
+  tax: number;
+  subTotal: number;
+  error: null;
+  getSubsciptionDetailsLoading: boolean;
+  subscriptionDetails: SubscriptionDetails | null;
+}
+
+export interface SubscriptionDetails {
+  _id: string;
+  magazineTitle: string;
+  image: string;
+  title: string;
+  description: string;
+  status: string;
+  date: string;
+  subscriptionId: number;
+  priceDigital: number;
+  pricePaper: number;
+  pricePaperEEC: number;
+  pricePaperFrance: number;
+  pricePaperRestOfWorld: number;
+}
+
+export interface SubscriptionDetailsAPIresonse {
+  status: string;
+  code: number;
+  message: string;
+  subscriptions: SubscriptionDetails[];
+}
+
+export interface CreatePaymentIntentTypes {
+  billingAddress: Address;
+  shippingAddress: Address;
+  phone: string;
+  email: string;
+  VAT: string;
+  purchaseOrder: string;
+  orderNotes: string;
+  code: string;
+  token: string | null;
 }

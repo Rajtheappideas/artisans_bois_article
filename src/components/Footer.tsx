@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import logo from '../../public/static/images/Logo.png'
+import logo from "../../public/static/images/Logo.png";
 
 const Footer = () => {
   return (
@@ -34,11 +34,7 @@ const Footer = () => {
       <div className="w-full bg-blue xl:pt-20 lg:pt-28 pt-32">
         <div className="container grid md:p-10 p-5 place-items-start items-start xl:grid-cols-4  md:grid-cols-2 w-full md:gap-5 gap-8 mx-auto">
           <div className="md:text-4xl text-2xl w-full">
-            <Image
-              loading="lazy"
-              src={logo}
-              alt=""
-            />
+            <Image loading="lazy" src={logo} alt="" />
           </div>
           {/* wood network */}
           <div className="space-y-3 w-full">
@@ -50,19 +46,29 @@ const Footer = () => {
                 <Link href="/">wood news media</Link>
               </li>
               <li className="hover:pl-3 hover:border-l-8 capitalize border-white cursor-pointer transition-all duration-200 ease-in-out text-left">
-                <Link href="/">wood mag</Link>
+                <Link href="https://www.boismag.com/" target="_blank">
+                  wood mag
+                </Link>
               </li>
               <li className="hover:pl-3 hover:border-l-8 capitalize border-white cursor-pointer transition-all duration-200 ease-in-out text-left">
-                <Link href="/">eshop</Link>
+                <Link href="https://eshop.boisnewsmedia.com" target="_blank">
+                  eshop
+                </Link>
               </li>
               <li className="hover:pl-3 hover:border-l-8 capitalize border-white cursor-pointer transition-all duration-200 ease-in-out text-left">
-                <Link href="/">the magazine designer</Link>
+                <Link href="https://l-agenceur.com/" target="_blank">
+                  the magazine designer
+                </Link>
               </li>
               <li className="hover:pl-3 hover:border-l-8 capitalize border-white cursor-pointer transition-all duration-200 ease-in-out text-left">
-                <Link href="/">roofing magazine</Link>
+                <Link href="https://www.toituremagazine.com/" target="_blank">
+                  roofing magazine
+                </Link>
               </li>
               <li className="hover:pl-3 hover:border-l-8 capitalize border-white cursor-pointer transition-all duration-200 ease-in-out text-left">
-                <Link href="/">wood parteners</Link>
+                <Link href="https://woodpartners.fr/" target="_blank">
+                  wood parteners
+                </Link>
               </li>
             </ul>
           </div>

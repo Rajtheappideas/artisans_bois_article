@@ -3,6 +3,7 @@ import { persistStore, persistReducer, Persistor } from "redux-persist";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import AuthSlice from "./AuthSlice";
 import GetContentSlice from "./GetContentSlice";
+import CheckoutSlice from "./CheckoutSlice";
 
 const createNoopStorage = () => {
   return {
@@ -32,6 +33,7 @@ const authPersistConfing = {
 const peristReducers = combineReducers({
   auth: persistReducer(authPersistConfing, AuthSlice),
   getcontent: GetContentSlice,
+  checkout: CheckoutSlice,
 });
 
 export const store = () => {

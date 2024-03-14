@@ -8,13 +8,13 @@ import EditDeliveryAddress from "./EditDeliveryAddress";
 import { useAppSelector } from "@/redux/hooks";
 import { Address } from "@/types";
 
-const Address = ({ loading }: { loading: boolean }) => {
+const Address = () => {
   const [activeAddress, setActiveAddress] = useState<string>("");
   const [activeEditAddress, setActiveEditAddress] = useState<string>("");
 
   const { t } = useTranslation();
 
-  const { addresses } = useAppSelector((s) => s.root.auth);
+  const { addresses, loading } = useAppSelector((s) => s.root.auth);
 
   return (
     <>
@@ -97,7 +97,7 @@ const Address = ({ loading }: { loading: boolean }) => {
               Object.values(addresses?.shippingAddress as Address).length >
                 0 ? (
                 <div className="space-y-2 w-full">
-                  <p className="heading">{t("Shipping address")}</p>
+                  <p className="heading">{t("delivery address")}</p>
                   <div className="w-full md:p-4 p-2  border border-gray-300 space-y-2">
                     <p>
                       {addresses?.shippingAddress?.zipCode}, <br />
