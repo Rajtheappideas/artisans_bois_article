@@ -22,7 +22,7 @@ const Checkout = () => {
   );
   const [stripePromise, setStripePromise] = useState<Stripe | null>(null);
 
-  const { user, addresses, token } = useAppSelector((state) => state.root.auth);
+  const { user, token } = useAppSelector((state) => state.root.auth);
 
   const dispatch = useAppDispatch();
   const navigate = useRouter();
@@ -43,9 +43,7 @@ const Checkout = () => {
       navigate.push("/");
       toast("you have active subscription.");
     }
-    if (!addresses.billingAddress || !addresses.shippingAddress) {
-      dispatch(handleGetUserAddress({ token }));
-    }
+    dispatch(handleGetUserAddress({ token }));
     dispatch(handleGetSubscriptionDetails());
     return () => abortApiCall();
   }, []);

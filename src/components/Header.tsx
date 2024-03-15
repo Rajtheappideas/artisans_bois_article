@@ -85,16 +85,6 @@ function Header() {
     };
   }, []);
 
-  const links = [
-    { name: "Outdoor Facilities", link: "/category/outdoor-facilities" },
-    { name: "Equipmenty", link: "/category/Equipmenty" },
-    { name: "Cunstruction", link: "/category/Cunstruction" },
-    { name: "Carpentry", link: "/category/Carpentry" },
-    { name: "Occupation", link: "/category/Occupation" },
-    { name: "Distribution", link: "/category/Distribution" },
-    { name: "Finishes", link: "/category/Finishes" },
-  ];
-
   return (
     <>
       {showLoginModal && <LoginModal />}
@@ -108,7 +98,7 @@ function Header() {
         <div className="container mx-auto flex items-center gap-x-3 p-3 justify-end text-white">
           {user ? (
             <>
-              <Link href="/my-account">
+              <Link href="/my-account" className="capitalize">
                 {user?.fname} {user?.lname}
               </Link>{" "}
               |{" "}
@@ -221,8 +211,8 @@ function Header() {
             {user &&
               user?.remainingIssues &&
               (user?.remainingIssues >= 0 || user?.remainingIssues) && (
-                <span className="uppercase md:p-3 p-1 border rounded-lg hover:bg-gray-200 hover:text-black transition-all duration-300 ease-in-out">
-                  Active Subscription
+                <span className="uppercase md:p-3 p-1 md:text-base text-xs border rounded-lg hover:bg-gray-200 hover:text-black transition-all duration-300 ease-in-out">
+                  Active <br className="md:hidden" /> Subscription
                 </span>
               )}
             <AiOutlineSearch
@@ -253,17 +243,23 @@ function Header() {
             onClick={() => setShowSidebar(false)}
             className="absolute top-3 right-3 z-50 h-6 w-6"
           />
-          {links.map(({ link, name }, i) => (
-            <li
-              key={i}
-              className="group w-full text-center relative z-10 capitalize md:text-lg hover:font-semibold transition-all duration-300 ease-in-out"
-            >
-              <Link href={link} className="text-center">
-                {name}
+          {categoryLoading ? (
+            <div className="">Loading...</div>
+          ) : (
+            categories.map(({ name, _id }) => (
+              <Link
+                onClick={() => setActiveCategory(name)}
+                href={`/category/${name}`}
+                className="text-center w-full"
+                key={_id}
+              >
+                <li className="group w-full text-center relative z-10 capitalize md:text-lg hover:font-semibold transition-all duration-300 ease-in-out">
+                  {name}
+                  <p className="w-0 p-0 absolute top-0 left-0 -z-10 group-hover:w-full group-hover:p-4  duration-300 ease-in-out bg-blue/10"></p>
+                </li>
               </Link>
-              <p className="w-0 p-0 absolute top-0 left-0 -z-10 group-hover:w-full group-hover:p-4  duration-300 ease-in-out bg-blue/10"></p>
-            </li>
-          ))}
+            ))
+          )}
         </ul>
         <div
           onClick={() => setShowSidebar(false)}

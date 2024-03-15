@@ -62,7 +62,9 @@ const PaymentMethod = ({
           if (res?.payload?.status === "success") {
             toast.success("Payment successful");
             dispatch(handleGetUserProfile({ token }));
-            navigate.push("/");
+            setTimeout(() => {
+              navigate.push("/");
+            }, 2000);
             setActiveComponent("success");
           }
         });
