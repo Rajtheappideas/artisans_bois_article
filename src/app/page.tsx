@@ -35,11 +35,10 @@ const Home = () => {
     <>
       <div className="bg-lightGray">
         <div className="Container ">
-          {!homePageLoading && <Herosection />}
+          <Herosection />
           <ArticlesCategories />
           <RecentArticles />
-          {!homePageLoading &&
-            homePageContent?.categories &&
+          {homePageContent?.categories &&
             homePageContent?.categories.length > 0 &&
             homePageContent?.categories.map(
               ({ category: { _id, name }, articles }) => (
