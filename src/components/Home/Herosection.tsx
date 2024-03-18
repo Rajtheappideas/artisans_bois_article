@@ -10,21 +10,34 @@ const Herosection = () => {
     (s) => s.root.getcontent
   );
 
+  if (homePageLoading) {
+    return (
+      <div className="w-full h-[80vh] grid lg:grid-cols-2 gap-3">
+        <div className="w-full h-full animate-pulse ease-in-out bg-gray-200 duration-200"></div>
+        <div className="w-full h-full grid grid-cols-2 gap-3">
+          <div className="w-full h-full animate-pulse ease-in-out bg-gray-200 duration-200"></div>
+          <div className="w-full h-full animate-pulse ease-in-out bg-gray-200 duration-200"></div>
+          <div className="w-full lg:h-full lg:block hidden col-span-full animate-pulse ease-in-out bg-gray-200 duration-200"></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className={`w-full grid ${
         homePageContent?.content.heroSection &&
-        homePageContent.content.heroSection.length > 1
+        homePageContent?.content.heroSection.length > 1
           ? "grid-cols-2"
           : "grid-cols-1"
       } place-items-start items-start md:gap-3 gap-1`}
     >
       {homePageContent?.content.heroSection &&
-        homePageContent.content.heroSection.length > 0 && (
+        homePageContent?.content.heroSection.length > 0 && (
           <div className="relative w-full 3xl:h-[50vh] 2xl:h-[40vh] xl:h-[80vh] md:h-[50vh] h-[40vh] overflow-hidden">
             <Link
               href={`${
-                homePageContent.content.heroSection[0]?.type === "Article"
+                homePageContent?.content.heroSection[0]?.type === "Article"
                   ? `/articles/${homePageContent?.content.heroSection[0]?.content?.slug}`
                   : homePageContent?.content.heroSection[0]?.content?.url ?? ""
               }
@@ -55,7 +68,7 @@ const Herosection = () => {
                     : homePageContent?.content.heroSection[0]?.content.content}
                 </p>
                 <p className="font-light text-sm">
-                  {homePageContent?.content.heroSection[0]?.category.name} |
+                  {homePageContent?.content.heroSection[0]?.category?.name} |
                   {/* {homePageContent?.content.heroSection[0]?.category.} */}
                 </p>
               </div>
@@ -110,7 +123,10 @@ const Herosection = () => {
                               .content}
                       </p>
                       <p className="font-light lg:text-sm text-xs text-wrap">
-                        {homePageContent?.content.heroSection[1]?.category.name}{" "}
+                        {
+                          homePageContent?.content.heroSection[1]?.category
+                            ?.name
+                        }{" "}
                         | OCTOBER 16, 2023
                       </p>
                     </div>
@@ -154,7 +170,10 @@ const Herosection = () => {
                         )}
                       </p>
                       <p className="font-light lg:text-sm text-xs text-wrap">
-                        {homePageContent?.content.heroSection[2]?.category.name}{" "}
+                        {
+                          homePageContent?.content.heroSection[2]?.category
+                            ?.name
+                        }{" "}
                         | OCTOBER 16, 2023
                       </p>
                     </div>
@@ -197,7 +216,10 @@ const Herosection = () => {
                         )}
                       </p>
                       <p className="font-light lg:text-sm text-xs text-wrap">
-                        {homePageContent?.content.heroSection[3]?.category.name}{" "}
+                        {
+                          homePageContent?.content.heroSection[3]?.category
+                            ?.name
+                        }{" "}
                         | OCTOBER 16, 2023
                       </p>
                     </div>

@@ -16,6 +16,18 @@ const ArticlesCategories = () => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
+  if (categoryLoading) {
+    return (
+      <div className="w-full h-[40vh] grid lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-3">
+        <div className="w-full h-full animate-pulse ease-in-out bg-gray-200 duration-200"></div>
+        <div className="w-full h-full animate-pulse ease-in-out bg-gray-200 duration-200"></div>
+        <div className="w-full h-full lg:block hidden animate-pulse ease-in-out bg-gray-200 duration-200"></div>
+        <div className="w-full h-full md:block hidden animate-pulse ease-in-out bg-gray-200 duration-200"></div>
+        <div className="w-full h-full lg:block hidden animate-pulse ease-in-out bg-gray-200 duration-200"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full">
       {/* title */}

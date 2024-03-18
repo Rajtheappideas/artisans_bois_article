@@ -35,26 +35,19 @@ const Home = () => {
     <>
       <div className="bg-lightGray">
         <div className="Container ">
-          {homePageLoading ? (
-            <div className="loading">Loading...</div>
-          ) : (
-            <Herosection />
-          )}
+          {!homePageLoading && <Herosection />}
           <ArticlesCategories />
           <RecentArticles />
-          {!homePageLoading ? (
+          {!homePageLoading &&
             homePageContent?.categories &&
             homePageContent?.categories.length > 0 &&
             homePageContent?.categories.map(
               ({ category: { _id, name }, articles }) => (
                 <NewPosts key={_id} name={name} articles={articles} />
               )
-            )
-          ) : (
-            <div className="loading">Loading...</div>
-          )}
+            )}
           {homePageLoading ? (
-            <div className="loading">Loading...</div>
+            <div className="w-full h-80 animate-pulse ease-in-out bg-gray-200 duration-200"></div>
           ) : (
             homePageContent?.content?.otherSections[1] && (
               <div className="w-full h-full">

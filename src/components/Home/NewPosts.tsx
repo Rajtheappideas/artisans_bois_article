@@ -1,7 +1,5 @@
 import React from "react";
-import postImage from "../../../public/static/images/newpost.png";
 import SingalPost from "./SingalPost";
-import Image from "next/image";
 import { useAppSelector } from "@/redux/hooks";
 import { SingleArticle } from "@/types";
 
@@ -15,6 +13,17 @@ const NewPosts = ({ name, articles }: NewPostsProps) => {
     (state) => state.root.getcontent
   );
 
+  if (homePageLoading) {
+    return (
+      <>
+        <div className="w-full flex gap-2">
+          <div className="w-1/3 h-60 animate-pulse ease-in-out bg-gray-200 duration-200"></div>
+          <div className="w-1/3 h-60 animate-pulse ease-in-out bg-gray-200 duration-200"></div>
+          <div className="w-1/3 h-60 animate-pulse ease-in-out bg-gray-200 duration-200"></div>
+        </div>
+      </>
+    );
+  }
   return (
     <div className="w-full md:space-y-7 space-y-3">
       {/* title */}
@@ -26,11 +35,10 @@ const NewPosts = ({ name, articles }: NewPostsProps) => {
       </div>
       {/* posts */}
       <div className="w-full h-full grid lg:grid-cols-2 gap-5 place-items-start items-start">
-        {homePageLoading ? (
-          <div className="loading col-span-full">Loading...</div>
-        ) : homePageContent?.categories &&
-          articles.length > 0 &&
-          !homePageLoading ? (
+        {!homePageLoading &&
+        homePageContent?.categories &&
+        articles.length > 0 &&
+        !homePageLoading ? (
           articles.map(
             ({
               _id,
