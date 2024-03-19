@@ -64,7 +64,7 @@ const OrderSummary = ({
       handleApplyPromoCode({
         code: promoCode,
         token,
-      })
+      }),
     );
     if (response) {
       response.then((res) => {
@@ -87,7 +87,9 @@ const OrderSummary = ({
   function calculatePromoCodeDiscount(code: any) {
     if (!code) return;
     dispatch(
-      handleChangePromoCodeDiscount((code?.discountPercentage * subTotal) / 100)
+      handleChangePromoCodeDiscount(
+        (code?.discountPercentage * subTotal) / 100,
+      ),
     );
     return (code?.discountPercentage * subTotal) / 100;
   }
@@ -140,8 +142,8 @@ const OrderSummary = ({
           {promoCodeLoading
             ? "Applying..."
             : isPromoCodeApplied
-            ? "Applied"
-            : "Apply"}
+              ? "Applied"
+              : "Apply"}
         </button>
         {isPromoCodeApplied && (
           <AiOutlineClose
@@ -154,7 +156,7 @@ const OrderSummary = ({
       </div>
       <hr />
       {/* total + subtotal + tax */}
-      <div className="px-2 space-y-2">
+      <div className="p-2 space-y-2">
         {/* sub total */}
         <div className="flex items-center justify-between">
           <p className="w-1/2">
@@ -204,7 +206,7 @@ const OrderSummary = ({
         </div>
         {/* total */}
         <div className="flex items-center justify-between">
-          <p className="w-1/2">
+          <p className="w-1/2 ">
             <b>{t("Total")}</b>
           </p>
           <p className="break-words w-1/2 text-right">
@@ -222,7 +224,7 @@ const OrderSummary = ({
             handleSubmit();
           }}
           disabled={checkoutLoading || loading}
-          className="capitalize w-full blue_button md:h-12 font-semibold"
+          className="capitalize w-full blue_button md:h-12 font-semibold "
           type="button"
         >
           {activeComponent === "checkout_form"
@@ -230,14 +232,14 @@ const OrderSummary = ({
               ? "Submitting Details..."
               : "continue"
             : checkoutLoading || loading
-            ? "Processing..."
-            : "Checkout"}
+              ? "Processing..."
+              : "Checkout"}
         </button>
         {activeComponent === "payment_method" && (
           <button
             onClick={() => setActiveComponent("checkout_form")}
             className="capitalize w-full black_button md:h-12 font-semibold"
-            disabled={checkoutLoading||loading}
+            disabled={checkoutLoading || loading}
           >
             {t("back")}
           </button>
